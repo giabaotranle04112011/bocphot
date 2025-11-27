@@ -1,31 +1,86 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chào mừng</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f4ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        h1 {
-            font-size: 48px;
-            color: #2b4eff;
-            animation: fadeIn 1.2s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NYC - Bốc Phốt</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 <body>
-    <h1>Chào mừng!</h1>
+  <!-- Background animated particles -->
+  <div class="particles-background">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <header>
+    <div class="header-content">
+      <div class="vip-badge">⭐ Bốc Phốt ⭐</div>
+      <h1>💫 NYC💫</h1>
+    </div>
+    <div class="header-glow"></div>
+  </header>
+
+  <section class="search-filter">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm bạn...">
+    </div>
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-filter="all">Danh sách đen</button>
+    </div>
+  </section>
+
+  <main class="friends-container">
+    <div class="friend-card" data-category="school">
+      <div class="card-header">
+        <div class="avatar-container">
+          <img src="https://quickshare.samsungcloud.com/ls/public/v1/links/1764246240655LKbfqzx/contents/f63cae70cb8b11f0b8e8da111d14785f/resized/1280?signature=KBNoHMgUK6vfyaIajYqss8v8IObbKY2LR_eDRbY0UEiPcoo5QbkDmxJ8XrYAxzkP4Q34IKd_xmeARGWrKEtlifY40Vh3t-ZSxVSr9PkuxsevS4jPGGekdwM9hF4en6IIyrSgMc-AEPaLg2XChSDdCw&storageType=file" alt="Huỳnh Linh">
+        </div>
+        <span class="category-badge">Bạn học</span>
+      </div>
+      <h2>Huỳnh Linh</h2>
+      <p class="age">📅 14 tuổi</p>
+      <p class="desc">Một người có cái tính rất xấu 'dâm dục',tuy cô ấy đã có ny rồi mà còn tạo acc phụ quen thằng khác và đăng những video hơi ấy cho trai xem 😔</p>
+      <p class="desc">Cái nết xem phim 18+ và còn xem truyện ...</p>
+      <p class="desc">Với lại cái tay hơi ấy lúc nào cũng móc vào quần của admin đang làm web này</p>
+      <p class="desc">Tham ăn vặt , tham uống trà sữa ,...</p>
+      <p class="desc">Còn nói tục </p>
+      <p class="desc">Ngực thì lép , vòng 2 toàn mỡ 😐,còn nhiều cái hơi ấy ko nói được</p>
+      <p class="desc">Trước làm idol lỏ tiktok năm lớp 8'toàn lắc đít,nhảy cho trai xe,m</p>
+      <p class="desc">Trình độ học cũng bình thường , lúc thì quên,...</p>
+      <p class="desc">Trước chưa quen mình linh đinh bào tiền thằng admin làm cái web này</p>
+      <p class="desc">Lúc thì chơi ngu , lúc thì té , thật vô dụng</p>
+      <p class="desc">Rửa chén , ly thì bể </p>
+      <p class="desc">Có lần uống bia vô là đốt lúa của mẹ</p>
+      <p class="desc">Phần 2 ở dưới'</p>
+      <H2>Phần 2 </H2>
+      <p class="desc">Một người nào đó là con người mà , cứ thích cắn người , tưởng con chó ko á </p>
+      <p class="desc"></p>Cái mặt thì đần đần như con ma cà rồng , cái mắt thì ấy lắm , mặt mụn với lại tưởng những bị tâm thần .lúc nào cũng hở răng nanh ra như muốn cắn người ta á </p>
+      <p class="desc"></p>Lúc cắn admin này xong admin bị dại luôn á </p>
+      <p class="desc"></p>Lúc cào người ta chảy hết cả máu luôn á </p>
+      <p class="desc"></p>Lúc té xe thì chơi bẩn lắm , lấy thịt đè người , mà admin thì té xe đau quá ko làm gì được ,....</p>
+      <p class="desc"></p>Cái tính hay nhột</p>
+      <p class="desc"></p>Cái nhà cứ tưởng cái chuồng lợn ko á, tởm vcl</p>
+      <p class="desc"></p>cái tủ đồ bên phải á , cứ tưởng ổ rác , còn mấy cái nhạy cảm lắm</p>
+      <p class="desc"></p>Lái xe thì ngu </p>
+
+      <p class="desc"></p></p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/nguyen.linh.285173?locale=vi_VN" class="social-btn facebook">📘 Facebook</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>© 2025 - Bốc Phốt</p>
+  </footer>
+
+  <script src="scrip.js"></script>
 </body>
 </html>
