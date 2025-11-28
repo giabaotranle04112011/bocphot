@@ -3,59 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MÁY BỊ XÂM NHẬP</title>
+<title>WARNING - SYSTEM BREACH</title>
 <style>
-  body,html {
+  body,html{
     margin:0;padding:0;overflow:hidden;
     background:black;color:#0f0;font-family:monospace;
   }
 
-  /* Hiệu ứng màn hình đỏ + cháy */
-  .fire {
+  /* FIRE + RED SCREEN */
+  .fire{
     position:fixed;inset:0;pointer-events:none;
     background:url('https://i.imgur.com/9Q9QZbp.gif');
     background-size:cover;mix-blend-mode:screen;
-    opacity:0.35;z-index:9998;
+    opacity:0.4;z-index:9998;
   }
 
-  /* Viền REC webcam */
-  .rec {
+  /* Broken Screen */
+  .crack{
+    position:fixed;inset:0;pointer-events:none;
+    background:url('https://i.imgur.com/5a7LxQH.png');
+    background-size:cover;
+    opacity:0;transition:1.2s;
+    z-index:99999;
+  }
+
+  /* REC */
+  .rec{
     position:fixed;top:20px;right:20px;
-    color:red;font-size:30px;font-weight:bold;
-    z-index:99999;animation:blink 0.7s infinite;
+    color:red;font-size:35px;font-weight:bold;
+    z-index:99999;animation:blink 0.5s infinite;
   }
-
   @keyframes blink {50%{opacity:0;}}
 
-  /* Khung popup CMD */
-  #fakecmd {
+  /* CMD */
+  #fakecmd{
     position:fixed;top:20px;left:20px;
-    width:450px;height:300px;
-    background:black;border:3px solid #0f0;
-    color:#0f0;font-size:14px;padding:10px;
-    display:none;z-index:99999;
+    width:450px;height:320px;background:black;
+    border:3px solid #0f0;color:#0f0;font-size:14px;
+    padding:10px;display:none;z-index:99999;
     overflow-y:auto;white-space:pre-line;
   }
 
-  /* Lắc màn hình */
-  @keyframes shakeScreen {
-    0%{transform:translate(0,0)}
-    25%{transform:translate(-20px,10px)}
-    50%{transform:translate(15px,-15px)}
-    75%{transform:translate(-10px,10px)}
-    100%{transform:translate(0,0)}
-  }
-
-  /* Glitch text */
-  .glitch {
-    font-size:60px;font-weight:bold;
-    position:fixed;top:40%;left:50%;
-    transform:translate(-50%, -50%);
+  /* BIG GLITCH TEXT */
+  .glitch{
+    font-size:70px;font-weight:bold;position:fixed;
+    top:40%;left:50%;transform:translate(-50%,-50%);
     color:#f00;z-index:99;
-    animation:glitch 0.3s infinite;
+    animation:glitch 0.2s infinite;
   }
-
-  @keyframes glitch {
+  @keyframes glitch{
     0%{text-shadow:3px 2px #0ff;}
     25%{text-shadow:-3px -2px #f0f;}
     50%{text-shadow:4px -3px #ff0;}
@@ -63,8 +59,8 @@
     100%{text-shadow:3px -1px #f00;}
   }
 
-  /* Màn hình upload */
-  #uploadbox {
+  /* UPLOAD BOX */
+  #uploadbox{
     position:fixed;bottom:20px;left:50%;
     transform:translateX(-50%);
     background:#111;padding:20px;border:2px solid red;
@@ -72,29 +68,42 @@
     font-size:20px;color:#fff;
   }
 
-  /* Canvas matrix */
+  /* BIOS WARNING */
+  #bios{
+    position:fixed;inset:0;display:none;
+    background:#000;color:red;font-size:40px;
+    text-align:center;padding-top:20%;
+    z-index:999999;font-family:monospace;
+    animation:flash 0.2s infinite;
+  }
+  @keyframes flash{
+    50%{background:#300;}
+  }
+
+  /* canvas */
   canvas{position:fixed;top:0;left:0;z-index:1;}
 </style>
 </head>
 <body oncontextmenu="return false">
 
 <div class="fire"></div>
+<div class="crack" id="crack"></div>
 <div class="rec">REC ●</div>
 <div id="fakecmd"></div>
-<div id="uploadbox">Uploading data: <span id="upl">0</span>%</div>
+<div id="uploadbox">UPLOAD DATA: <span id="upl">0</span>%</div>
+<div id="bios">BIOS OVERRIDE DETECTED<br>SECURITY FAILURE CODE: 0xDEAD00FF<br>LOCKING SYSTEM...</div>
 
 <h1 class="glitch">MÁY BẠN ĐÃ BỊ XÂM NHẬP</h1>
-
 <canvas id="matrix"></canvas>
 
 <script>
-// === MATRIX RAIN ===
-const c = document.getElementById("matrix");
-const ctx = c.getContext("2d");
-c.width = innerWidth; c.height = innerHeight;
-const char = "01X?#@$%█▓▒░";
-const size = 18, col = c.width / size;
-const drop = Array(Math.floor(col)).fill(1);
+/* MATRIX RAIN */
+const c=document.getElementById("matrix");
+const ctx=c.getContext("2d");
+c.width=innerWidth;c.height=innerHeight;
+const char="01X?#@$%█▓▒░";
+const size=18,col=c.width/size;
+const drop=Array(Math.floor(col)).fill(1);
 
 function rain(){
   ctx.fillStyle="rgba(0,0,0,0.05)";
@@ -102,96 +111,103 @@ function rain(){
   ctx.fillStyle="#0f0";
   ctx.font=size+"px monospace";
   drop.forEach((y,i)=>{
-    let txt = char[Math.floor(Math.random()*char.length)];
+    let txt=char[Math.floor(Math.random()*char.length)];
     ctx.fillText(txt,i*size,y*size);
-    if(y*size > c.height && Math.random()>0.95) drop[i]=0;
+    if(y*size>c.height&&Math.random()>0.95) drop[i]=0;
     drop[i]++;
   });
 }
 setInterval(rain,35);
 
-// === ÂM THANH NẶNG ===
-const sounds = [
+/* TITLE CHANGER */
+setInterval(()=>{
+  document.title=["HACKING...","WARNING","SYSTEM BREACH","ERROR"][Math.floor(Math.random()*4)];
+},200);
+
+/* SUPER LOUD SOUNDS */
+const sounds=[
   "https://assets.mixkit.co/sfx/preview/mixkit-electric-zap-853.mp3",
   "https://assets.mixkit.co/sfx/preview/mixkit-alarm-tone-996.mp3",
   "https://assets.mixkit.co/sfx/preview/mixkit-static-electric-shock-2595.mp3",
-  "https://assets.mixkit.co/sfx/preview/mixkit-creepy-ambient-drum-1406.mp3"
+  "https://assets.mixkit.co/sfx/preview/mixkit-creepy-ambient-drum-1406.mp3",
+  "https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-buzzer-991.mp3"
 ];
 let id=0;
 setInterval(()=>{
-  let a = new Audio(sounds[id % sounds.length]);
-  a.volume=1; a.play();
+  let a=new Audio(sounds[id%sounds.length]);
+  a.volume=1;a.play();
   id++;
-},3000);
+},2500);
 
-// === FAKE CMD ===
-let cmd = document.getElementById("fakecmd");
+/* FAKE CMD */
+let cmd=document.getElementById("fakecmd");
 cmd.style.display="block";
-let lines = [
-  "Initializing ransomware engine...",
-  "Injecting payload into kernel32.dll...",
-  "Encrypting C:/Users/* ...",
-  "Encrypting D:/Photos ...",
-  "Uploading passwords.txt ...",
-  "Bypassing firewall...",
-  "Deleting system logs...",
-  "Accessing webcam...",
-  "Streaming live feed..."
+let lines=[
+  "Connecting to remote host...",
+  "Injecting rootkit.sys...",
+  "Overclocking CPU without permission...",
+  "Stealing Discord tokens...",
+  "Accessing webcam ports...",
+  "Dumping saved passwords...",
+  "Deleting system32...",
+  "Injecting BIOS override...",
+  "Streaming desktop live..."
 ];
 let i=0;
 setInterval(()=>{
   if(i<lines.length){
-    cmd.innerHTML += "> " + lines[i] + "\n";
-    cmd.scrollTop = cmd.scrollHeight;
+    cmd.innerHTML+="> "+lines[i]+"\n";
+    cmd.scrollTop=cmd.scrollHeight;
     i++;
   }
-},500);
+},400);
 
-// === UPLOAD DATA ===
+/* UPLOAD % */
 let up=0;
 setInterval(()=>{
   document.getElementById("uploadbox").style.display="block";
-  up += Math.floor(Math.random()*5)+1;
+  up+=Math.floor(Math.random()*8)+3;
   if(up>100) up=100;
   upl.innerText=up;
-},300);
+},220);
 
-// === CHUỘT TỰ DI CHUYỂN LOẠN ===
+/* MOUSE CRAZY */
 setInterval(()=>{
-  window.moveBy(
-    Math.random()*20-10,
-    Math.random()*20-10
-  );
-},70);
+  window.moveBy(Math.random()*40-20,Math.random()*40-20);
+},60);
 
-// === LẮC MÀN HÌNH KHI < 10s ===
+/* BROKEN SCREEN */
 setTimeout(()=>{
-  document.body.style.animation="shakeScreen 0.08s infinite";
-},15000);
+  document.getElementById("crack").style.opacity=1;
+},9000);
 
-// === SPAM POPUP ===
+/* BIOS SCREEN */
 setTimeout(()=>{
-  setInterval(()=>{
-    let w = window.open("", "", "width=300,height=200");
-    if(w){
-      w.document.write("<body style='background:#000;color:red;font-size:30px;text-align:center'>HACKED!</body>");
-    }
-  },1200);
-},10000);
+  document.getElementById("bios").style.display="block";
+},16000);
 
-// === CHẶN PHÍM THOÁT ===
-document.addEventListener("keydown", e=>{
+/* GIỌNG DEMON */
+setTimeout(()=>{
+  const msg=new SpeechSynthesisUtterance("Hệ thống của mày đã bị điều khiển hoàn toàn. Không thể thoát.");
+  msg.lang="vi-VN";msg.pitch=0.3;msg.rate=0.7;
+  speechSynthesis.speak(msg);
+},2500);
+
+/* BLOCK KEYBOARD */
+document.addEventListener("keydown",e=>{
   e.preventDefault();
-  alert("Không thoát được đâu :)");
+  alert("Không ấn được đâu :)");
 });
 
-// === GIỌNG NÓI DEMON ===
+/* AUTO POPUPS */
 setTimeout(()=>{
-  const msg = new SpeechSynthesisUtterance("Máy tính của mày đã bị chiếm quyền điều khiển. Toàn bộ dữ liệu đang bị tải lên máy chủ của tao.");
-  msg.lang="vi-VN"; msg.pitch=0.4; msg.rate=0.8;
-  speechSynthesis.speak(msg);
-},2000);
+  setInterval(()=>{
+    let w=window.open("","","width=300,height=200");
+    if(w){
+      w.document.write("<body style='background:black;color:red;font-size:30px;text-align:center'>HACKED!</body>");
+    }
+  },900);
+},7000);
 </script>
-
 </body>
 </html>
