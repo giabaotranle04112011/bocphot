@@ -268,5 +268,70 @@
       })
     });
   </script>
+  <script>
+    /* --- VIP PRO Anti-Screenshot & Watermark --- */
+
+// --- Chống phím tắt ---
+document.addEventListener('keydown', function(e) {
+    // PrintScreen
+    if(e.key === 'PrintScreen'){
+        alert('📸 Chụp màn hình bị cấm ở VIP PRO!');
+        try { navigator.clipboard.writeText(''); } catch(e){}
+        e.preventDefault();
+    }
+    // Ctrl + C / S / P / U
+    if(e.ctrlKey){
+        const forbidden = ['c','s','p','u'];
+        if(forbidden.includes(e.key.toLowerCase())){
+            alert('⚠️ Hành động này bị cấm ở VIP PRO!');
+            e.preventDefault();
+        }
+    }
+});
+
+// --- Ngăn chuột phải và chọn text ---
+document.addEventListener('contextmenu', e => { alert('Chuột phải bị vô hiệu hóa!'); e.preventDefault(); });
+document.addEventListener('selectstart', e => e.preventDefault());
+document.addEventListener('dragstart', e => e.preventDefault());
+
+// --- Watermark động VIP PRO ---
+(function(){
+    const watermark = document.createElement('div');
+    watermark.id = 'vipWatermark';
+    watermark.style.position = 'fixed';
+    watermark.style.top = '0';
+    watermark.style.left = '0';
+    watermark.style.width = '100%';
+    watermark.style.height = '100%';
+    watermark.style.pointerEvents = 'none';
+    watermark.style.zIndex = '9999';
+    watermark.style.overflow = 'hidden';
+    watermark.style.opacity = '0.1';
+    watermark.style.display = 'flex';
+    watermark.style.flexWrap = 'wrap';
+    watermark.style.alignContent = 'space-around';
+    document.body.appendChild(watermark);
+
+    const text = 'VIP PRO';
+    for(let i=0;i<150;i++){
+        const span = document.createElement('span');
+        span.textContent = text;
+        span.style.transform = `rotate(-45deg)`;
+        span.style.fontSize = `${Math.random()*50+20}px`;
+        span.style.margin = '20px';
+        span.style.color = '#fff';
+        span.style.opacity = '0.1';
+        watermark.appendChild(span);
+    }
+})();
+
+// --- Phát hiện khi tab bị ẩn (người dùng có thể quay video màn hình) ---
+document.addEventListener('visibilitychange', function(){
+    if(document.hidden){
+        alert('⚠️ Đang chuyển tab hoặc thu nhỏ cửa sổ? VIP PRO không cho phép ghi hình!');
+    }
+});
+
+  </script>
 </body>
 </html>
