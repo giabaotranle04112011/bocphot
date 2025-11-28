@@ -1,213 +1,216 @@
+
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WARNING - SYSTEM BREACH</title>
-<style>
-  body,html{
-    margin:0;padding:0;overflow:hidden;
-    background:black;color:#0f0;font-family:monospace;
-  }
-
-  /* FIRE + RED SCREEN */
-  .fire{
-    position:fixed;inset:0;pointer-events:none;
-    background:url('https://i.imgur.com/9Q9QZbp.gif');
-    background-size:cover;mix-blend-mode:screen;
-    opacity:0.4;z-index:9998;
-  }
-
-  /* Broken Screen */
-  .crack{
-    position:fixed;inset:0;pointer-events:none;
-    background:url('https://i.imgur.com/5a7LxQH.png');
-    background-size:cover;
-    opacity:0;transition:1.2s;
-    z-index:99999;
-  }
-
-  /* REC */
-  .rec{
-    position:fixed;top:20px;right:20px;
-    color:red;font-size:35px;font-weight:bold;
-    z-index:99999;animation:blink 0.5s infinite;
-  }
-  @keyframes blink {50%{opacity:0;}}
-
-  /* CMD */
-  #fakecmd{
-    position:fixed;top:20px;left:20px;
-    width:450px;height:320px;background:black;
-    border:3px solid #0f0;color:#0f0;font-size:14px;
-    padding:10px;display:none;z-index:99999;
-    overflow-y:auto;white-space:pre-line;
-  }
-
-  /* BIG GLITCH TEXT */
-  .glitch{
-    font-size:70px;font-weight:bold;position:fixed;
-    top:40%;left:50%;transform:translate(-50%,-50%);
-    color:#f00;z-index:99;
-    animation:glitch 0.2s infinite;
-  }
-  @keyframes glitch{
-    0%{text-shadow:3px 2px #0ff;}
-    25%{text-shadow:-3px -2px #f0f;}
-    50%{text-shadow:4px -3px #ff0;}
-    75%{text-shadow:-2px 3px #0f0;}
-    100%{text-shadow:3px -1px #f00;}
-  }
-
-  /* UPLOAD BOX */
-  #uploadbox{
-    position:fixed;bottom:20px;left:50%;
-    transform:translateX(-50%);
-    background:#111;padding:20px;border:2px solid red;
-    display:none;z-index:99999;
-    font-size:20px;color:#fff;
-  }
-
-  /* BIOS WARNING */
-  #bios{
-    position:fixed;inset:0;display:none;
-    background:#000;color:red;font-size:40px;
-    text-align:center;padding-top:20%;
-    z-index:999999;font-family:monospace;
-    animation:flash 0.2s infinite;
-  }
-  @keyframes flash{
-    50%{background:#300;}
-  }
-
-  /* canvas */
-  canvas{position:fixed;top:0;left:0;z-index:1;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Trang web này được tạo ra nhằm mục đích cá nhân hoá gồm viết blog chia sẻ, tạo tính năng cộng đồng. Ngoài ra mình còn nhận thiết kế website theo yêu cầu và figma.">
+    <meta name="keywords" content="hieu, hiếu, Hiếu Website, hiếu website, subway90, subway90.vn, hieu.name.vn, hieu name vn, Hiếu Dev">
+    <title>Bảo Website | Trang chủ</title>
+    <link rel="icon" href="https://hieu.name.vn/asset/image/minhhieu_logo.png" type="image/png">
+    <!-- CDN bootstrap icon -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+    <!-- CDN CSS Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!-- CSS Custom -->
+    <link rel="stylesheet" href="https://hieu.name.vn/public/view/css/main.css?v=1.4">
+    <link rel="stylesheet" href="https://hieu.name.vn/public/view/css/header.css?v=1.2">
+    <link rel="stylesheet" href="https://hieu.name.vn/public/view/css/footer.css?v=1.1">
 </head>
-<body oncontextmenu="return false">
 
-<div class="fire"></div>
-<div class="crack" id="crack"></div>
-<div class="rec">REC ●</div>
-<div id="fakecmd"></div>
-<div id="uploadbox">UPLOAD DATA: <span id="upl">0</span>%</div>
-<div id="bios">BIOS OVERRIDE DETECTED<br>SECURITY FAILURE CODE: 0xDEAD00FF<br>LOCKING SYSTEM...</div>
 
-<h1 class="glitch">MÁY BẠN ĐÃ BỊ XÂM NHẬP</h1>
-<canvas id="matrix"></canvas>
+<body class="">
+    <!-- Navbar -->
+    <nav id="navbar" class="navbar navbar-expand-lg container px-3 px-lg-0">
+        <div class="container rounded-3 bg-box py-2 mt-lg-3 mt-2">
+            <button class="navbar-toggler bg-transparent p-0 collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i id="navbar-toggler-show" class="bi bi-list text-light fs-1"></i>
+                <i id="navbar-toggler-hide" class="bi bi-x text-light fs-1"></i>
+            </button>
+            <div id="group-btn-header" class="d-flex align-items-center justify-content-center gap-1">
+                                <a href="/dang-nhap" class="btn btn-sm btn-outline-light rounded-pill ">
+                    <small>Đăng nhập</small>
+                </a>
+                
+                <div class="ms-lg-1">
+                    <button type="button" id="mode-light" class="btn btn-sm btn-outline-light rounded-circle">
+                        <i class=""></i>
+                    </button>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <a href="/" class="position-absolute start-0 ms-2 d-none d-lg-flex align-items-center text-decoration-none" title="Hiếu Website - Nhấn để về trang chủ">
+                    <img id="logo-header" src="https://hieu.name.vn/asset/image/minhhieu_logo.png" class="col-1" alt="logo">
+                    <div class="ms-1">
+                        <span class="text-light-80 fs-6">Hiếu Website</span>
+                        <div class="text-light-50 small">
+                            <small>Trang website cá nhân</small>
+                        </div>
+                    </div>
+                </a>
+                <ul class="navbar-nav align-items-center mx-auto mb-2 mb-lg-0 gap-2 mt-3 mt-lg-0">
 
-<script>
-/* MATRIX RAIN */
-const c=document.getElementById("matrix");
-const ctx=c.getContext("2d");
-c.width=innerWidth;c.height=innerHeight;
-const char="01X?#@$%█▓▒░";
-const size=18,col=c.width/size;
-const drop=Array(Math.floor(col)).fill(1);
+                    <li class="nav-item">
+                        <a class="nav-link on" href="/">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/du-an">Dự án</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/suu-tam">Sưu tầm</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav><link rel="stylesheet" href="https://hieu.name.vn/public/view/css/home.css?v=1.2">
 
-function rain(){
-  ctx.fillStyle="rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,c.width,c.height);
-  ctx.fillStyle="#0f0";
-  ctx.font=size+"px monospace";
-  drop.forEach((y,i)=>{
-    let txt=char[Math.floor(Math.random()*char.length)];
-    ctx.fillText(txt,i*size,y*size);
-    if(y*size>c.height&&Math.random()>0.95) drop[i]=0;
-    drop[i]++;
-  });
-}
-setInterval(rain,35);
+<div class="container px-lg-0 mt-5">
+    <div class="box-introduce row align-items-center justify-content-center">
+        <div class="col-12 col-lg-6">
+            <h2 class="col-12 box-introduce-title animate__animated animate__jackInTheBox">
+                Hiếu Website            </h2>
+            <div id="introduce-desc" class="box-introduce-desc mt-3 col-lg-9">
+                Trang web này được tạo ra nhằm mục đích cá nhân hoá gồm viết blog chia sẻ, tạo tính năng cộng đồng. Ngoài ra mình còn nhận thiết kế website theo yêu cầu và figma.            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="box-social">
+                <a href="https://github.com/giabaotranle04112011" target="_blank" class="card-social animate__animated animate__fadeIn animate__delay-5s">
+                    <i class="bi bi-github"></i>
+                    <span>/giabaotran04112011</span>
+                </a>
+                <a href="#" target="_blank" class="card-social animate__animated animate__fadeIn animate__delay-4s">
+                    <i class="bi bi-linkedin"></i>
+                    <span>/giabaotran04112011</span>
+                </a>
+                <a href="https://www.instagram.com/lethanhtam568/" target="_blank" class="card-social animate__animated animate__fadeIn animate__delay-3s">
+                    <i class="bi bi-instagram"></i>
+                    <span>/lethanhtam568</span>
+                </a>
+                <a href="https://www.facebook.com/gia.bao.tranle.2025?locale=vi_VN" target="_blank" class="card-social animate__animated animate__fadeIn animate__delay-2s">
+                    <i class="bi bi-facebook"></i>
+                    <span>//gia.bao.tranle</span>
+                </a>
+                <a href="https://www.youtube.com/@GiabaoTranle-tv6nn" target="_blank" class="card-social animate__animated animate__fadeIn animate__delay-1s">
+                    <i class="bi bi-youtube"></i>
+                    <span>@GiabaoTranle-tv6nn</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-/* TITLE CHANGER */
-setInterval(()=>{
-  document.title=["HACKING...","WARNING","SYSTEM BREACH","ERROR"][Math.floor(Math.random()*4)];
-},200);
+<div class="container mt-5">
+    <div class="d-flex flex-column flex-lg-row gap-4">
+        <a href="/du-an"
+            class="w-100 bg-box bg-box-btn rounded-5 d-flex align-items-center gap-2 justify-content-center py-3 small animate__animated animate__bounceIn animate__delay-2s">
+            <i class="bi bi-collection"></i>
+            <div class="">Tất cả dự án</div>
+        </a>
+        <a href="/suu-tam"
+            class="w-100 bg-box bg-box-btn rounded-5 d-flex align-items-center gap-2 justify-content-center py-3 small animate__animated animate__bounceIn animate__delay-3s">
+            <i class="bi bi-globe2"></i>
+            <div class="">Thiết kế website</div>
+        </a>
+        <a href="/suu-tam"
+            class="w-100 bg-box bg-box-btn rounded-5 d-flex align-items-center gap-2 justify-content-center py-3 small animate__animated animate__bounceIn animate__delay-4s">
+            <i class="bi bi-layout-wtf"></i>
+            <div class="">Thiết kế Figma</div>
+        </a>
+        <a href="/dang-nhap"
+            class="w-100 bg-box bg-box-btn rounded-5 d-flex align-items-center gap-2 justify-content-center py-3 small animate__animated animate__bounceIn animate__delay-5s">
+            <i class="bi bi-envelope"></i>
+            <div class="">Gửi thư liên hệ</div>
+        </a>
+    </div>
+</div><!-- Footer -->
+<footer class="container px-lg-0">
+    <div class="mt-5 text-center bg-box rounded-4 text-light py-3">
+        <div class="container">
+            <div class="row">
 
-/* SUPER LOUD SOUNDS */
-const sounds=[
-  "https://assets.mixkit.co/sfx/preview/mixkit-electric-zap-853.mp3",
-  "https://assets.mixkit.co/sfx/preview/mixkit-alarm-tone-996.mp3",
-  "https://assets.mixkit.co/sfx/preview/mixkit-static-electric-shock-2595.mp3",
-  "https://assets.mixkit.co/sfx/preview/mixkit-creepy-ambient-drum-1406.mp3",
-  "https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-buzzer-991.mp3"
-];
-let id=0;
-setInterval(()=>{
-  let a=new Audio(sounds[id%sounds.length]);
-  a.volume=1;a.play();
-  id++;
-},2500);
+                <div class="col-lg-4 col-12">
+                    <div class=" d-flex align-items-center justify-content-start gap-1">
+                        <a class="text-decoration-none" href="/">
+                            <img id="logo-header" src="https://hieu.name.vn/asset/image/minhhieu_logo.png" alt="">
+                        </a>
+                        <div class="text-light-50 text-start text-nowrap">
+                            <div class="d-flex flex-column justify-content-center">
+                                <div class="text-light-80">
+                                    Bảo Website
+                                </div>
+                                <div class="small text-light-50">
+                                    Trang website cá nhân
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column mt-3 gap-1 text-light-50 ps-lg-2">
+                        <div class="d-flex align-items-center gap-2 small">
+                            <i class="bi bi-person-circle"></i>
+                            <div class="text-light-60">Trần Lê Gia Bảo</div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 small">
+                            <i class="bi bi-envelope"></i>
+                            <div class="text-light-60">giabaotranle55@gmail.com</div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 small">
+                            <i class="bi bi-telephone"></i>
+                            <div class="text-light-60">0348 707 829</div>
+                        </div>
+                    </div>
+                </div>
 
-/* FAKE CMD */
-let cmd=document.getElementById("fakecmd");
-cmd.style.display="block";
-let lines=[
-  "Connecting to remote host...",
-  "Injecting rootkit.sys...",
-  "Overclocking CPU without permission...",
-  "Stealing Discord tokens...",
-  "Accessing webcam ports...",
-  "Dumping saved passwords...",
-  "Deleting system32...",
-  "Injecting BIOS override...",
-  "Streaming desktop live..."
-];
-let i=0;
-setInterval(()=>{
-  if(i<lines.length){
-    cmd.innerHTML+="> "+lines[i]+"\n";
-    cmd.scrollTop=cmd.scrollHeight;
-    i++;
-  }
-},400);
+                <div class="col-lg-4 col-12">
 
-/* UPLOAD % */
-let up=0;
-setInterval(()=>{
-  document.getElementById("uploadbox").style.display="block";
-  up+=Math.floor(Math.random()*8)+3;
-  if(up>100) up=100;
-  upl.innerText=up;
-},220);
+                </div>
 
-/* MOUSE CRAZY */
-setInterval(()=>{
-  window.moveBy(Math.random()*40-20,Math.random()*40-20);
-},60);
+                <div class="col-lg-4 col-12 d-flex justify-content-center justify-content-lg-end my-3 my-lg-0 gap-2">
+                    <a href="https://github.com/giabaotranle04112011" class="fs-5 text-light-60" target="_blank">
+                        <i class="bi bi-github"></i>
+                    </a>
+                    <a href="https://www.facebook.com/gia.bao.tranle.2025?locale=vi_VN" class="fs-5 text-light-60" target="_blank">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="https://youtube.com/@GiabaoTranle-tv6nn" class="fs-5 text-light-60" target="_blank">
+                        <i class="bi bi-youtube"></i>
+                    </a>
+                    <a href="https://www.instagram.com/lethanhtam568/" class="fs-5 text-light-60" target="_blank">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="#" class="fs-5 text-light-60" target="_blank">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                </div>
 
-/* BROKEN SCREEN */
-setTimeout(()=>{
-  document.getElementById("crack").style.opacity=1;
-},9000);
+            </div>
+        </div>
+        <span class="g-h1 small">&copy; Bản quyền thuộc <a target="_blank" href="https://github.com/giabaotranle04112011"><strong>Giabaotranle04112011</strong></a></span>
+    </div>
+</footer>
 
-/* BIOS SCREEN */
-setTimeout(()=>{
-  document.getElementById("bios").style.display="block";
-},16000);
+<div class="footer-led"></div>
 
-/* GIỌNG DEMON */
-setTimeout(()=>{
-  const msg=new SpeechSynthesisUtterance("Hệ thống của mày đã bị điều khiển hoàn toàn. Không thể thoát.");
-  msg.lang="vi-VN";msg.pitch=0.3;msg.rate=0.7;
-  speechSynthesis.speak(msg);
-},2500);
+<div class="position-fixed end-0 bottom-0 mb-5 me-lg-4">
+        <button class="btn btn-lg g-h1" id="scrollButton"><i class="fs-1 bi bi-arrow-up-circle-fill"></i></button>
+</div>
 
-/* BLOCK KEYBOARD */
-document.addEventListener("keydown",e=>{
-  e.preventDefault();
-  alert("Không ấn được đâu :)");
-});
-
-/* AUTO POPUPS */
-setTimeout(()=>{
-  setInterval(()=>{
-    let w=window.open("","","width=300,height=200");
-    if(w){
-      w.document.write("<body style='background:black;color:red;font-size:30px;text-align:center'>HACKED!</body>");
-    }
-  },900);
-},7000);
-</script>
 </body>
+
+<!-- JS custom -->
+<script src="https://hieu.name.vn/public/view/js/scroll.js"></script>
+<script src="https://hieu.name.vn/public/view/js/paragraph.js"></script>
+<script src="https://hieu.name.vn/public/view/js/light_mode.js"></script>
+<script src="https://hieu.name.vn/public/view/js/navbar_scroll.js"></script>
+<!-- CDN JS Bootstrap 5 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<!-- CDN JQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- CDN Chative -->
+
 </html>
