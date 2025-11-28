@@ -269,69 +269,150 @@
     });
   </script>
   <script>
-    /* --- VIP PRO Anti-Screenshot & Watermark --- */
+/* ===== VIP PRO ANTI-SCREENSHOT & ANTI-RECORDING 2025+ (JS ONLY) ===== */
+(() => {
+    'use strict';
 
-// --- Chống phím tắt ---
-document.addEventListener('keydown', function(e) {
-    // PrintScreen
-    if(e.key === 'PrintScreen'){
-        alert('📸 Chụp màn hình bị cấm ở VIP PRO!');
-        try { navigator.clipboard.writeText(''); } catch(e){}
-        e.preventDefault();
-    }
-    // Ctrl + C / S / P / U
-    if(e.ctrlKey){
-        const forbidden = ['c','s','p','u'];
-        if(forbidden.includes(e.key.toLowerCase())){
-            alert('⚠️ Hành động này bị cấm ở VIP PRO!');
-            e.preventDefault();
+    let overlay = null;
+    let canvas = null;
+    let isDevtoolsOpen = false;
+
+    // Tạo overlay đen + watermark liên tục (khó quay video)
+    const createOverlay = () => {
+        if (overlay) return;
+        overlay = document.createElement('div');
+        overlay.id = 'VIP_PRO_SECURE_2025';
+        Object.assign(overlay.style, {
+            position: 'fixed',
+            top: 0, left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.98)',
+            zIndex: '2147483647',
+            pointerEvents: 'none',
+            userSelect: 'none',
+            overflow: 'hidden',
+            transition: 'opacity 0.1s'
+        });
+
+        const text = "VIP PRO - KHÔNG CHỤP MÀN HÌNH";
+        for (let i = 0; i < 120; i++) {
+            const wm = document.createElement('div');
+            wm.textContent = text;
+            wm.style.position = 'absolute';
+            wm.style.color = 'rgba(255,255,255,0.15)';
+            wm.style.fontSize = Math.random() * 50 + 30 + 'px';
+            wm.style.fontWeight = 'bold';
+            wm.style.transform = 'rotate(-45deg)';
+            wm.style.left = Math.random() * 100 + '%';
+            wm.style.top = Math.random() * 100 + '%';
+            wm.style.transform += ` translate(-50%, -50%)`;
+            wm.style.whiteSpace = 'nowrap';
+            overlay.appendChild(wm);
         }
+
+        document.body.appendChild(overlay);
+
+        // Nhấp nháy cực nhanh + thay đổi opacity ngẫu nhiên (phá OBS, quay màn hình)
+        setInterval(() => {
+            overlay.style.opacity = Math.random() > 0.5 ? '0.92' : '1';
+        }, 80);
+    };
+
+    // Phát hiện DevTools mở (cả ngang và dọc)
+    const detectDevTools = () => {
+        const threshold = 160;
+        const check = () => {
+            const widthDiff = window.outerWidth - window.innerWidth > threshold;
+            const heightDiff = window.outerHeight - window.innerHeight > threshold;
+            if (widthDiff || heightDiff || window.outerHeight < 200) {
+                if (!isDevtoolsOpen) {
+                    isDevtoolsOpen = true;
+                    createOverlay();
+                    document.body.innerHTML = ''; // Xóa hết nội dung nếu cố mở DevTools
+                }
+            }
+        };
+        setInterval(check, 500);
+        window.addEventListener('resize', check);
+        check();
+    };
+
+    // Chặn mọi phím tắt nguy hiểm
+    document.addEventListener('keydown', e => {
+        if (
+            e.key === 'PrintScreen' ||
+            e.key === 'F12' ||
+            (e.ctrlKey && (e.shiftKey && ['I','J','C'].includes(e.key)) || // Ctrl+Shift+I/J/C
+            (e.ctrlKey && ['c','s','a','u','p','+','-'].includes(e.key.toLowerCase())) ||
+            (e.metaKey && ['c','s','a','u','p'].includes(e.key.toLowerCase())) // Mac
+        )) {
+            createOverlay();
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    }, true);
+
+    // Chặn chuột phải, chọn văn bản, kéo thả
+    ['contextmenu', 'selectstart', 'dragstart', 'copy', 'cut', 'paste'].forEach(evt => {
+        document.addEventListener(evt, e => {
+            e.preventDefault();
+            e.stopPropagation();
+            createOverlay();
+            return false;
+        }, true);
+    });
+
+    // Khi tab bị ẩn hoặc mất focus → bật overlay
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) createOverlay();
+    });
+    window.addEventListener('blur', () => createOverlay());
+
+    // Chặn screenshot bằng Canvas (phổ biến trên nhiều tool)
+    const blockCanvas = () => {
+        const origGetContext = HTMLCanvasElement.prototype.getContext;
+        HTMLCanvasElement.prototype.getContext = function() {
+            createOverlay();
+            return null;
+        };
+    };
+
+    // Chặn WebRTC (một số tool quay màn hình dùng WebRTC)
+    if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+        navigator.mediaDevices.getDisplayMedia = () => Promise.reject('Blocked');
     }
-});
 
-// --- Ngăn chuột phải và chọn text ---
-document.addEventListener('contextmenu', e => { alert('Chuột phải bị vô hiệu hóa!'); e.preventDefault(); });
-document.addEventListener('selectstart', e => e.preventDefault());
-document.addEventListener('dragstart', e => e.preventDefault());
+    // Tự động bật bảo vệ khi nội dung VIP được mở (ví dụ: phần 3)
+    const autoProtect = () => {
+        if (localStorage.getItem('part3_unlocked') === '1' || 
+            location.search.includes('vip') || 
+            document.body.innerText.includes('VIP')) {
+            setTimeout(createOverlay, 100);
+        }
+    };
 
-// --- Watermark động VIP PRO ---
-(function(){
-    const watermark = document.createElement('div');
-    watermark.id = 'vipWatermark';
-    watermark.style.position = 'fixed';
-    watermark.style.top = '0';
-    watermark.style.left = '0';
-    watermark.style.width = '100%';
-    watermark.style.height = '100%';
-    watermark.style.pointerEvents = 'none';
-    watermark.style.zIndex = '9999';
-    watermark.style.overflow = 'hidden';
-    watermark.style.opacity = '0.1';
-    watermark.style.display = 'flex';
-    watermark.style.flexWrap = 'wrap';
-    watermark.style.alignContent = 'space-around';
-    document.body.appendChild(watermark);
+    // Khởi chạy tất cả
+    window.addEventListener('load', () => {
+        createOverlay();
+        detectDevTools();
+        blockCanvas();
+        autoProtect();
+    });
 
-    const text = 'VIP PRO';
-    for(let i=0;i<150;i++){
-        const span = document.createElement('span');
-        span.textContent = text;
-        span.style.transform = `rotate(-45deg)`;
-        span.style.fontSize = `${Math.random()*50+20}px`;
-        span.style.margin = '20px';
-        span.style.color = '#fff';
-        span.style.opacity = '0.1';
-        watermark.appendChild(span);
-    }
+    // Bảo vệ thêm: nếu ai đó xóa overlay → tạo lại ngay
+    new MutationObserver(() => {
+        if (!document.getElementById('VIP_PRO_SECURE_2025')) {
+            createOverlay();
+        }
+    }).observe(document.body, { childList: true, subtree: true });
+
+    // Tự kích hoạt nếu người dùng cố inspect element
+    console.log('%cSTOP! This is VIP PRO content.', 'color:red;font-size:50px;');
 })();
-
-// --- Phát hiện khi tab bị ẩn (người dùng có thể quay video màn hình) ---
-document.addEventListener('visibilitychange', function(){
-    if(document.hidden){
-        alert('⚠️ Đang chuyển tab hoặc thu nhỏ cửa sổ? VIP PRO không cho phép ghi hình!');
-    }
-});
 
   </script>
 </body>
 </html>
+
