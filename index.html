@@ -3,175 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Đã Bị Hack</title>
+<title>MÁY BỊ XÂM NHẬP</title>
 <style>
-  body, html { margin:0; padding:0; overflow:hidden; height:100%; background:#000; color:#0f0; font-family:'Courier New',monospace; }
-  canvas { position:fixed; top:0; left:0; z-index:1; }
-  .overlay { position:fixed; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; pointer-events:none; }
-  h1 { font-size:70px; text-shadow:0 0 40px #f00; animation:glow 0.7s infinite alternate, shake 0.15s infinite; letter-spacing:8px; }
-  p { font-size:28px; animation:blink 1.2s infinite; }
-  .timer { font-size:50px; color:#f00; margin:30px; animation:pulse 1s infinite; }
-  .bsod { position:fixed; inset:0; background:#000; color:#0f0; display:none; flex-direction:column; justify-content:center; align-items:center; z-index:99999; }
-  .ransom { background:rgba(100,0,0,0.95); padding:30px; border:3px solid #f00; border-radius:15px; pointer-events:all; }
-  .skull { font-size:150px; animation:spin 4s linear infinite, pulse 1.5s infinite; }
-  @keyframes glow { from {text-shadow:0 0 20px #f00;} to {text-shadow:0 0 100px #f00, 0 0 150px #f00;} }
-  @keyframes shake { 0%,100%{transform:translateX(0)} 10%,30%,50%,70%,90%{transform:translateX(-15px)} 20%,40%,60%,80%{transform:translateX(15px)} }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
-  @keyframes spin { from {transform:rotate(0deg)} to {transform:rotate(360deg)} }
-  .progress { width:80%; background:#222; height:30px; margin:20px 0; border:2px solid #0f0; }
-  .bar { height:100%; width:0%; background:#f00; animation:fill 12s linear forwards; }
-  @keyframes fill { to {width:100%} }
+  body,html {
+    margin:0;padding:0;overflow:hidden;
+    background:black;color:#0f0;font-family:monospace;
+  }
+
+  /* Hiệu ứng màn hình đỏ + cháy */
+  .fire {
+    position:fixed;inset:0;pointer-events:none;
+    background:url('https://i.imgur.com/9Q9QZbp.gif');
+    background-size:cover;mix-blend-mode:screen;
+    opacity:0.35;z-index:9998;
+  }
+
+  /* Viền REC webcam */
+  .rec {
+    position:fixed;top:20px;right:20px;
+    color:red;font-size:30px;font-weight:bold;
+    z-index:99999;animation:blink 0.7s infinite;
+  }
+
+  @keyframes blink {50%{opacity:0;}}
+
+  /* Khung popup CMD */
+  #fakecmd {
+    position:fixed;top:20px;left:20px;
+    width:450px;height:300px;
+    background:black;border:3px solid #0f0;
+    color:#0f0;font-size:14px;padding:10px;
+    display:none;z-index:99999;
+    overflow-y:auto;white-space:pre-line;
+  }
+
+  /* Lắc màn hình */
+  @keyframes shakeScreen {
+    0%{transform:translate(0,0)}
+    25%{transform:translate(-20px,10px)}
+    50%{transform:translate(15px,-15px)}
+    75%{transform:translate(-10px,10px)}
+    100%{transform:translate(0,0)}
+  }
+
+  /* Glitch text */
+  .glitch {
+    font-size:60px;font-weight:bold;
+    position:fixed;top:40%;left:50%;
+    transform:translate(-50%, -50%);
+    color:#f00;z-index:99;
+    animation:glitch 0.3s infinite;
+  }
+
+  @keyframes glitch {
+    0%{text-shadow:3px 2px #0ff;}
+    25%{text-shadow:-3px -2px #f0f;}
+    50%{text-shadow:4px -3px #ff0;}
+    75%{text-shadow:-2px 3px #0f0;}
+    100%{text-shadow:3px -1px #f00;}
+  }
+
+  /* Màn hình upload */
+  #uploadbox {
+    position:fixed;bottom:20px;left:50%;
+    transform:translateX(-50%);
+    background:#111;padding:20px;border:2px solid red;
+    display:none;z-index:99999;
+    font-size:20px;color:#fff;
+  }
+
+  /* Canvas matrix */
+  canvas{position:fixed;top:0;left:0;z-index:1;}
 </style>
 </head>
-<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onkeydown="block(e)">
+<body oncontextmenu="return false">
+
+<div class="fire"></div>
+<div class="rec">REC ●</div>
+<div id="fakecmd"></div>
+<div id="uploadbox">Uploading data: <span id="upl">0</span>%</div>
+
+<h1 class="glitch">MÁY BẠN ĐÃ BỊ XÂM NHẬP</h1>
 
 <canvas id="matrix"></canvas>
 
-<div class="overlay">
-  <div class="skull">☠️☠️☠️</div>
-  <h1 id="title">MÁY BẠN ĐÃ BỊ HACK 100%</h1>
-  <p id="msg">Tất cả file đã bị mã hóa bằng AES-256 quân sự</p>
-  <div class="ransom">
-    <p style="color:yellow;font-size:32px;">Gửi ngay 0.7 BTC tới địa chỉ:</p>
-    <p style="color:#fff;background:#000;padding:10px;font-size:24px;word-break:break-all;" id="btc">giabaotranle56@gmail.com</p>
-    <div class="timer" id="timer">09:59</div>
-    <div class="progress"><div class="bar"></div></div>
-    <p style="color:#f00;">Đang xóa ổ C:\ ... <span id="percent">5</span>%</p>
-  </div>
-</div>
-
-<div class="bsod" id="bsod">
-  <h1 style="font-size:100px;">:(</h1>
-  <p>PC CỦA BẠN ĐÃ CHẾT HOÀN TOÀN</p>
-  <p>ERROR: 0xDEADFACE – RANSOMWARE_TROLL_V9</p>
-  <p>Đã xóa 12.847 file quan trọng</p>
-  <p>Đang upload 127GB ảnh + video lên darkweb...</p>
-</div>
-
 <script>
-// === Matrix Rain Pro ===
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const chars = "アカサタナハマヤラワガザダバパイキシチニヒミリヲギジビピウクスツヌフムユルンゲゼデベペエケセテネヘメレヲゴゾドボポオコソトノホモヨロンヴ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const fontSize = 16;
-const columns = canvas.width / fontSize;
-const drops = Array(Math.floor(columns)).fill(1);
+// === MATRIX RAIN ===
+const c = document.getElementById("matrix");
+const ctx = c.getContext("2d");
+c.width = innerWidth; c.height = innerHeight;
+const char = "01X?#@$%█▓▒░";
+const size = 18, col = c.width / size;
+const drop = Array(Math.floor(col)).fill(1);
 
-function drawMatrix() {
-  ctx.fillStyle = "rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = "#0f0";
-  ctx.font = fontSize + "px monospace";
-  for(let i=0;i<drops.length;i++){
-    const text = chars[Math.floor(Math.random()*chars.length)];
-    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
-    if(drops[i]*fontSize > canvas.height && Math.random()>0.975) drops[i]=0;
-    drops[i]++;
-  }
+function rain(){
+  ctx.fillStyle="rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,c.width,c.height);
+  ctx.fillStyle="#0f0";
+  ctx.font=size+"px monospace";
+  drop.forEach((y,i)=>{
+    let txt = char[Math.floor(Math.random()*char.length)];
+    ctx.fillText(txt,i*size,y*size);
+    if(y*size > c.height && Math.random()>0.95) drop[i]=0;
+    drop[i]++;
+  });
 }
-setInterval(drawMatrix, 35);
+setInterval(rain,35);
 
-// === Âm thanh kinh dị + voice troll ===
+// === ÂM THANH NẶNG ===
 const sounds = [
-  "https://assets.mixkit.co/sfx/preview/mixkit-creepy-laugh-895.mp3",
-  "https://assets.mixkit.co/sfx/preview/mixkit-evil-monster-growl-2542.mp3",
-  "https://assets.mixkit.co/sfx/preview/mixkit-horror-ghostly-breath-280.mp3",
-  "https://assets.mixkit.co/sfx/preview/mixkit-demonic-woman-scream-421.mp3"
+  "https://assets.mixkit.co/sfx/preview/mixkit-electric-zap-853.mp3",
+  "https://assets.mixkit.co/sfx/preview/mixkit-alarm-tone-996.mp3",
+  "https://assets.mixkit.co/sfx/preview/mixkit-static-electric-shock-2595.mp3",
+  "https://assets.mixkit.co/sfx/preview/mixkit-creepy-ambient-drum-1406.mp3"
 ];
-let idx=0;
-function play() {
-  const a = new Audio(sounds[idx%sounds.length]);
-  a.volume = 0.9;
-  a.play();
-  idx++;
-}
-setInterval(play, 3500);
-play();
-
-// === Fake Voice TTS (tiếng Việt) ===
-setTimeout(()=>{
-  const msg = new SpeechSynthesisUtterance("Máy tính của mày đã bị hack hoàn toàn. Gửi tiền ngay không thì tao xóa hết dữ liệu và đăng ảnh nude của mày lên mạng. Haha ha ha!");
-  msg.lang = "vi-VN";
-  msg.rate = 0.9;
-  msg.pitch = 0.3;
-  speechSynthesis.speak(msg);
-}, 3000);
-
-// === Countdown 10 phút ===
-let time = 600;
-const timer = document.getElementById("timer");
-const percent = document.getElementById("percent");
+let id=0;
 setInterval(()=>{
-  time--;
-  const m = String(Math.floor(time/60)).padStart(2,"0");
-  const s = String(time%60).padStart(2,"0");
-  timer.textContent = m+":"+s;
-  percent.textContent = Math.floor((600-time)/6) + 10;
+  let a = new Audio(sounds[id % sounds.length]);
+  a.volume=1; a.play();
+  id++;
+},3000);
 
-  if(time <= 60) timer.style.color = "#ff0000";
-  if(time === 0) {
-    document.getElementById("bsod").style.display = "flex";
-    document.querySelector(".overlay").style.display = "none";
-    canvas.style.display = "none";
-    setTimeout(()=>alert("HẾT GIỜ! TẠM BIỆT DỮ LIỆU =))"),1000);
-  }
-},1000);
-
-// === Ép fullscreen + khóa F11, Esc, Ctrl+... ===
-document.documentElement.requestFullscreen?.();
-document.addEventListener("keydown", e=>{
-  if(e.key==="Escape"||e.key==="F11"||(e.ctrlKey&&(e.key==="w"||e.key==="r"||e.key==="t"||e.key==="Shift"||e.key==="F5"))||e.altKey){
-    e.preventDefault();
-    alert("MÀY NGHĨ THOÁT ĐƯỢC À? =)))");
-    document.documentElement.requestFullscreen?.();
-  }
-});
-
-// === Chặn blur + đổi title liên tục ===
-window.addEventListener("blur",()=>{
-  document.title = "QUAY LẠI NGAY KO DỮ LIỆU BAY HẾT ĐÓ!";
-  alert("ĐỪNG CÓ MÀ CHẠY!");
-});
-setInterval(()=>{
-  document.title = ["ĐÃ BỊ HACK","DỮ LIỆU ĐANG BỊ XÓA","QUAY LẠI NGAY","CHẾT ĐÓ CON =))"][Math.floor(Math.random()*4)];
-},1500);
-
-// === Thay đổi nội dung troll liên tục ===
-const msgs = [
-  "Đang gửi ảnh 18+ lên group lớp...",
-  "Camera trước đã bật – đang quay mặt mày khóc :))",
-  "Đã hack được tài khoản Facebook & Zalo",
-  "Đang format ổ D:... 78%",
-  "Hết giờ là mất sạch đấy =))",
-  "Đã leak pass WiFi + mật khẩu ngân hàng"
+// === FAKE CMD ===
+let cmd = document.getElementById("fakecmd");
+cmd.style.display="block";
+let lines = [
+  "Initializing ransomware engine...",
+  "Injecting payload into kernel32.dll...",
+  "Encrypting C:/Users/* ...",
+  "Encrypting D:/Photos ...",
+  "Uploading passwords.txt ...",
+  "Bypassing firewall...",
+  "Deleting system logs...",
+  "Accessing webcam...",
+  "Streaming live feed..."
 ];
+let i=0;
 setInterval(()=>{
-  document.getElementById("msg").textContent = msgs[Math.floor(Math.random()*msgs.length)];
-  document.getElementById("title").style.color = ["#f00","#0ff","#ff0","#f0f"][Math.floor(Math.random()*4)];
-},1200);
+  if(i<lines.length){
+    cmd.innerHTML += "> " + lines[i] + "\n";
+    cmd.scrollTop = cmd.scrollHeight;
+    i++;
+  }
+},500);
 
-// === Spam popup điên cuồng sau 15s ===
+// === UPLOAD DATA ===
+let up=0;
+setInterval(()=>{
+  document.getElementById("uploadbox").style.display="block";
+  up += Math.floor(Math.random()*5)+1;
+  if(up>100) up=100;
+  upl.innerText=up;
+},300);
+
+// === CHUỘT TỰ DI CHUYỂN LOẠN ===
+setInterval(()=>{
+  window.moveBy(
+    Math.random()*20-10,
+    Math.random()*20-10
+  );
+},70);
+
+// === LẮC MÀN HÌNH KHI < 10s ===
 setTimeout(()=>{
-  setInterval(()=>{
-    const w = window.open("","Troll","width=500,height=400");
-    if(w){
-      w.document.write(`<body style="background:#000;color:#f00;text-align:center;font-size:50px">
-        <h1>BẠN BỊ HACK RỒI!</h1><p>ĐỪNG CÓ TẮT =))</p>
-      </body>`);
-      w.focus();
-    }
-  },1500);
+  document.body.style.animation="shakeScreen 0.08s infinite";
 },15000);
 
-// === Fake BTC address copy khi click ===
-document.getElementById("btc").onclick = function(){
-  navigator.clipboard.writeText("1HackTrollMaster69xXx420BlazeIt");
-  alert("Đã copy địa chỉ ví! Mau gửi 0.7 BTC đi kẻo muộn =))");
-};
+// === SPAM POPUP ===
+setTimeout(()=>{
+  setInterval(()=>{
+    let w = window.open("", "", "width=300,height=200");
+    if(w){
+      w.document.write("<body style='background:#000;color:red;font-size:30px;text-align:center'>HACKED!</body>");
+    }
+  },1200);
+},10000);
 
+// === CHẶN PHÍM THOÁT ===
+document.addEventListener("keydown", e=>{
+  e.preventDefault();
+  alert("Không thoát được đâu :)");
+});
+
+// === GIỌNG NÓI DEMON ===
+setTimeout(()=>{
+  const msg = new SpeechSynthesisUtterance("Máy tính của mày đã bị chiếm quyền điều khiển. Toàn bộ dữ liệu đang bị tải lên máy chủ của tao.");
+  msg.lang="vi-VN"; msg.pitch=0.4; msg.rate=0.8;
+  speechSynthesis.speak(msg);
+},2000);
 </script>
+
 </body>
 </html>
