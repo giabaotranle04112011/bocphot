@@ -5,174 +5,172 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Đã Bị Hack</title>
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    background: #000;
-    color: #f00;
-    font-family: 'Courier New', monospace;
-    overflow: hidden;
-    height: 100vh;
-  }
-  .container {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-  }
-  h1 {
-    font-size: 60px;
-    text-shadow: 0 0 30px #f00, 0 0 60px #f00;
-    animation: glow 0.8s infinite alternate, shakeText 0.2s infinite;
-    letter-spacing: 5px;
-  }
-  p {
-    font-size: 28px;
-    animation: blink 1s infinite;
-  }
-  .matrix {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.8);
-    z-index: 0;
-    pointer-events: none;
-  }
-  .bsod {
-    position: fixed;
-    inset: 0;
-    background: #000;
-    color: #0f0;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    z-index: 99999;
-  }
-  .skull {
-    font-size: 120px;
-    animation: pulse 1.5s infinite;
-  }
-  @keyframes glow { from {text-shadow: 0 0 20px #f00;} to {text-shadow: 0 0 80px #f00;} }
-  @keyframes shakeText { 0%,100%{transform:translateX(0)} 10%,30%,50%,70%,90%{transform:translateX(-10px)} 20%,40%,60%,80%{transform:translateX(10px)} }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-  @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+  body, html { margin:0; padding:0; overflow:hidden; height:100%; background:#000; color:#0f0; font-family:'Courier New',monospace; }
+  canvas { position:fixed; top:0; left:0; z-index:1; }
+  .overlay { position:fixed; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; pointer-events:none; }
+  h1 { font-size:70px; text-shadow:0 0 40px #f00; animation:glow 0.7s infinite alternate, shake 0.15s infinite; letter-spacing:8px; }
+  p { font-size:28px; animation:blink 1.2s infinite; }
+  .timer { font-size:50px; color:#f00; margin:30px; animation:pulse 1s infinite; }
+  .bsod { position:fixed; inset:0; background:#000; color:#0f0; display:none; flex-direction:column; justify-content:center; align-items:center; z-index:99999; }
+  .ransom { background:rgba(100,0,0,0.95); padding:30px; border:3px solid #f00; border-radius:15px; pointer-events:all; }
+  .skull { font-size:150px; animation:spin 4s linear infinite, pulse 1.5s infinite; }
+  @keyframes glow { from {text-shadow:0 0 20px #f00;} to {text-shadow:0 0 100px #f00, 0 0 150px #f00;} }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 10%,30%,50%,70%,90%{transform:translateX(-15px)} 20%,40%,60%,80%{transform:translateX(15px)} }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+  @keyframes spin { from {transform:rotate(0deg)} to {transform:rotate(360deg)} }
+  .progress { width:80%; background:#222; height:30px; margin:20px 0; border:2px solid #0f0; }
+  .bar { height:100%; width:0%; background:#f00; animation:fill 12s linear forwards; }
+  @keyframes fill { to {width:100%} }
 </style>
 </head>
-<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onkeydown="block(e)">
 
-<div class="matrix" id="matrix"></div>
+<canvas id="matrix"></canvas>
 
-<div class="container">
-  <div class="skull">☠️</div>
-  <h1 id="mainText">MÁY BẠN ĐÃ BỊ HACK HOÀN TOÀN!</h1>
-  <p id="subText">Tất cả dữ liệu đã bị mã hóa... =))</p>
-  <p style="color:yellow; margin-top:50px;">Gửi 0.5 BTC trong 10 phút hoặc mất hết!</p>
+<div class="overlay">
+  <div class="skull">☠️☠️☠️</div>
+  <h1 id="title">MÁY BẠN ĐÃ BỊ HACK 100%</h1>
+  <p id="msg">Tất cả file đã bị mã hóa bằng AES-256 quân sự</p>
+  <div class="ransom">
+    <p style="color:yellow;font-size:32px;">Gửi ngay 0.7 BTC tới địa chỉ:</p>
+    <p style="color:#fff;background:#000;padding:10px;font-size:24px;word-break:break-all;" id="btc">giabaotranle56@gmail.com</p>
+    <div class="timer" id="timer">09:59</div>
+    <div class="progress"><div class="bar"></div></div>
+    <p style="color:#f00;">Đang xóa ổ C:\ ... <span id="percent">5</span>%</p>
+  </div>
 </div>
 
-<!-- Fake BSOD -->
 <div class="bsod" id="bsod">
-  <h1>:(</h1>
-  <p>Máy tính của bạn đã gặp sự cố nghiêm trọng và cần khởi động lại.</p>
-  <p>ERROR: 0x000000F4 YOUR_PC_IS_HACKED</p>
-  <p>Đang thu thập thông tin... 100%</p>
-  <p>Đang xóa ổ C:\ ... 99%</p>
+  <h1 style="font-size:100px;">:(</h1>
+  <p>PC CỦA BẠN ĐÃ CHẾT HOÀN TOÀN</p>
+  <p>ERROR: 0xDEADFACE – RANSOMWARE_TROLL_V9</p>
+  <p>Đã xóa 12.847 file quan trọng</p>
+  <p>Đang upload 127GB ảnh + video lên darkweb...</p>
 </div>
 
 <script>
-// Matrix rain effect
-const matrix = document.getElementById("matrix");
-const ctx = document.createElement("canvas").getContext("2d");
-document.body.appendChild(ctx.canvas);
-ctx.canvas.width = window.innerWidth;
-ctx.canvas.height = window.innerHeight;
-const columns = Math.floor(window.innerWidth / 20);
-const drops = new Array(columns).fill(1);
+// === Matrix Rain Pro ===
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const chars = "アカサタナハマヤラワガザダバパイキシチニヒミリヲギジビピウクスツヌフムユルンゲゼデベペエケセテネヘメレヲゴゾドボポオコソトノホモヨロンヴ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
 
 function drawMatrix() {
   ctx.fillStyle = "rgba(0,0,0,0.05)";
-  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle = "#0f0";
-  ctx.font = "15px monospace";
-  for (let i = 0; i < drops.length; i++) {
-    const text = String.fromCharCode(0x30A0 + Math.random() * 96);
-    ctx.fillText(text, i * 20, drops[i] * 20);
+  ctx.font = fontSize + "px monospace";
+  for(let i=0;i<drops.length;i++){
+    const text = chars[Math.floor(Math.random()*chars.length)];
+    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+    if(drops[i]*fontSize > canvas.height && Math.random()>0.975) drops[i]=0;
     drops[i]++;
-    if (drops[i] * 20 > ctx.canvas.height && Math.random() > 0.975) drops[i] = 0;
   }
 }
-setInterval(drawMatrix, 50);
+setInterval(drawMatrix, 35);
 
-// Âm thanh kinh dị liên tục
+// === Âm thanh kinh dị + voice troll ===
 const sounds = [
   "https://assets.mixkit.co/sfx/preview/mixkit-creepy-laugh-895.mp3",
   "https://assets.mixkit.co/sfx/preview/mixkit-evil-monster-growl-2542.mp3",
-  "https://assets.mixkit.co/sfx/preview/mixkit-horror-ghostly-breath-280.mp3"
+  "https://assets.mixkit.co/sfx/preview/mixkit-horror-ghostly-breath-280.mp3",
+  "https://assets.mixkit.co/sfx/preview/mixkit-demonic-woman-scream-421.mp3"
 ];
-let current = 0;
-function playSound() {
-  const audio = new Audio(sounds[current]);
-  audio.volume = 0.8;
-  audio.play();
-  current = (current + 1) % sounds.length;
+let idx=0;
+function play() {
+  const a = new Audio(sounds[idx%sounds.length]);
+  a.volume = 0.9;
+  a.play();
+  idx++;
 }
-setInterval(playSound, 4000);
-playSound();
+setInterval(play, 3500);
+play();
 
-// Fullscreen ép buộc
-setTimeout(() => document.documentElement.requestFullscreen?.(), 1000);
+// === Fake Voice TTS (tiếng Việt) ===
+setTimeout(()=>{
+  const msg = new SpeechSynthesisUtterance("Máy tính của mày đã bị hack hoàn toàn. Gửi tiền ngay không thì tao xóa hết dữ liệu và đăng ảnh nude của mày lên mạng. Haha ha ha!");
+  msg.lang = "vi-VN";
+  msg.rate = 0.9;
+  msg.pitch = 0.3;
+  speechSynthesis.speak(msg);
+}, 3000);
 
-// Fake BSOD sau 12 giây
-setTimeout(() => {
-  document.getElementById("bsod").style.display = "flex";
-  document.getElementById("matrix").style.display = "none";
-  document.querySelector(".container").style.display = "none";
-}, 12000);
+// === Countdown 10 phút ===
+let time = 600;
+const timer = document.getElementById("timer");
+const percent = document.getElementById("percent");
+setInterval(()=>{
+  time--;
+  const m = String(Math.floor(time/60)).padStart(2,"0");
+  const s = String(time%60).padStart(2,"0");
+  timer.textContent = m+":"+s;
+  percent.textContent = Math.floor((600-time)/6) + 10;
 
-// Chống thoát tab
-window.addEventListener("blur", () => {
-  document.title = "QUAY LẠI NGAY! DỮ LIỆU ĐANG BỊ XÓA!";
-  setTimeout(() => alert("ĐỪNG CỐ THOÁT! =))"), 100);
-});
-window.addEventListener("focus", () => {
-  document.title = "Đã Bị Hack";
-});
+  if(time <= 60) timer.style.color = "#ff0000";
+  if(time === 0) {
+    document.getElementById("bsod").style.display = "flex";
+    document.querySelector(".overlay").style.display = "none";
+    canvas.style.display = "none";
+    setTimeout(()=>alert("HẾT GIỜ! TẠM BIỆT DỮ LIỆU =))"),1000);
+  }
+},1000);
 
-// Chữ nhấp nháy + đổi màu điên cuồng
-setInterval(() => {
-  const colors = ["#f00","#0f0","#ff0","#f0f","#0ff","#fff"];
-  document.getElementById("mainText").style.color = colors[Math.floor(Math.random()*colors.length)];
-  document.getElementById("subText").textContent = [
-    "Tất cả dữ liệu đã bị mã hóa...",
-    "Đang gửi ảnh cá nhân lên mạng...",
-    "Camera đã bị bật...",
-    "Đang format ổ C:...",
-    "Hết giờ rồi nhé =))"
-  ][Math.floor(Math.random()*5)];
-}, 800);
-
-// Chặn phím tắt thoát
-document.addEventListener("keydown", e => {
-  if (e.key === "F11" || e.key === "Escape" || (e.ctrlKey && (e.key === "w" || e.key === "r" || e.key === "t"))) {
+// === Ép fullscreen + khóa F11, Esc, Ctrl+... ===
+document.documentElement.requestFullscreen?.();
+document.addEventListener("keydown", e=>{
+  if(e.key==="Escape"||e.key==="F11"||(e.ctrlKey&&(e.key==="w"||e.key==="r"||e.key==="t"||e.key==="Shift"||e.key==="F5"))||e.altKey){
     e.preventDefault();
-    alert("KHÔNG THOÁT ĐƯỢC ĐÂU =))");
-  }
-  if (e.key === "PrintScreen") {
-    navigator.clipboard.writeText("Hacked by TrollMaster");
-    alert("Screenshot đã bị thay bằng tin nhắn troll!");
+    alert("MÀY NGHĨ THOÁT ĐƯỢC À? =)))");
+    document.documentElement.requestFullscreen?.();
   }
 });
 
-// Spam popup cuối cùng
-setTimeout(() => {
-  setInterval(() => {
-    const w = window.open("", "_blank", "width=400,height=300");
-    if (w) w.document.write("<h1 style='color:red'>BẠN BỊ HACK RỒI!</h1>");
-  }, 3000);
-}, 15000);
+// === Chặn blur + đổi title liên tục ===
+window.addEventListener("blur",()=>{
+  document.title = "QUAY LẠI NGAY KO DỮ LIỆU BAY HẾT ĐÓ!";
+  alert("ĐỪNG CÓ MÀ CHẠY!");
+});
+setInterval(()=>{
+  document.title = ["ĐÃ BỊ HACK","DỮ LIỆU ĐANG BỊ XÓA","QUAY LẠI NGAY","CHẾT ĐÓ CON =))"][Math.floor(Math.random()*4)];
+},1500);
+
+// === Thay đổi nội dung troll liên tục ===
+const msgs = [
+  "Đang gửi ảnh 18+ lên group lớp...",
+  "Camera trước đã bật – đang quay mặt mày khóc :))",
+  "Đã hack được tài khoản Facebook & Zalo",
+  "Đang format ổ D:... 78%",
+  "Hết giờ là mất sạch đấy =))",
+  "Đã leak pass WiFi + mật khẩu ngân hàng"
+];
+setInterval(()=>{
+  document.getElementById("msg").textContent = msgs[Math.floor(Math.random()*msgs.length)];
+  document.getElementById("title").style.color = ["#f00","#0ff","#ff0","#f0f"][Math.floor(Math.random()*4)];
+},1200);
+
+// === Spam popup điên cuồng sau 15s ===
+setTimeout(()=>{
+  setInterval(()=>{
+    const w = window.open("","Troll","width=500,height=400");
+    if(w){
+      w.document.write(`<body style="background:#000;color:#f00;text-align:center;font-size:50px">
+        <h1>BẠN BỊ HACK RỒI!</h1><p>ĐỪNG CÓ TẮT =))</p>
+      </body>`);
+      w.focus();
+    }
+  },1500);
+},15000);
+
+// === Fake BTC address copy khi click ===
+document.getElementById("btc").onclick = function(){
+  navigator.clipboard.writeText("1HackTrollMaster69xXx420BlazeIt");
+  alert("Đã copy địa chỉ ví! Mau gửi 0.7 BTC đi kẻo muộn =))");
+};
 
 </script>
 </body>
