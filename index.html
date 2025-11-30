@@ -91,6 +91,27 @@
       font-style:italic;
     }
 
+    /* Reading warning */
+    .warning-note{
+      max-width:760px;
+      margin:12px auto 22px;
+      padding:10px 14px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      background:linear-gradient(90deg,#fffaf0,#fff4e8);
+      border-left:4px solid #f39c12;
+      color:#6b3b2f;
+      font-weight:600;
+      font-size:14px;
+    }
+    .warning-note .wn-icon{font-size:18px}
+    .warning-note .wn-close{
+      margin-left:auto;
+      background:transparent;border:0;color:#6b3b2f;font-size:18px;cursor:pointer;padding:4px;
+    }
+
     /* Poem Cards Grid */
     .poem-grid{
       display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;
@@ -247,6 +268,13 @@
       <h1>Những dòng thơ chạm đến trái tim</h1>
       <p class="subtitle">Nơi cảm xúc được gửi gắm bằng ngôn từ, nhẹ như gió thoảng nhưng sâu tựa biển khơi.</p>
 
+     <!-- Warning note -->
+     <div id="reading-warning" class="warning-note" role="status" aria-live="polite">
+       <span class="wn-icon" aria-hidden="true">⚠️</span>
+       <div>Cảnh báo: Nếu đọc thơ mà thấy nhột, có thể… bạn hơi nhạy cảm 😏. Thơ chỉ để giải trí, không nhắm ai đâu nhé!</div>
+       <button class="wn-close" aria-label="Đóng cảnh báo" onclick="document.getElementById('reading-warning').style.display='none'">×</button>
+     </div>
+
       <div class="poem-grid" id="tac-pham">
         <!-- Poem 1 -->
         <div class="poem-card" onclick="openPoem('poem1')">
@@ -390,17 +418,14 @@
     Nhảy te te, múa quay, cười nói vô vàn.<br>
     “Trend mới, trend hot, phải theo cho kịp”,<br>
     Nhưng tim thì trống rỗng, lời nói chẳng thật.</p>
-
     <p>Một bước nhảy, một bộ filter lấp lánh,<br>
     Chỉ để thu lượt xem, để nhận vài trái tim ảo.<br>
     Người ta nhìn, gật gù, khen nụ cười xinh,<br>
     Nhưng bên trong, chẳng ai biết bạn là ai.</p>
-
     <p>Trend trôi nhanh, rồi lại một trend khác,<br>
     Ai còn nhớ những clip hôm qua? Chẳng ai.<br>
     Mỗi lượt tim chỉ là số, chẳng phải cảm xúc,<br>
     Và cái tôi thật bị bỏ quên giữa dòng meme.</p>
-
     <p>Nếu muốn nổi, đừng chỉ nhảy theo số đông,<br>
     Hãy nhảy theo chính mình, theo tim thật.<br>
     Đừng để trend đánh cắp tuổi trẻ và tiếng nói,<br>
