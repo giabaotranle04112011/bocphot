@@ -105,20 +105,50 @@
       transform:translateY(-12px);box-shadow:0 25px 50px rgba(0,0,0,0.15);
     }
     .poem-card:nth-child(1){animation-delay:0.2s}
-    .poem-card:nth-child(2){animation-delay:0.4s}
-    .poem-card:nth-child(3){animation-delay:0.6s}
+.poem-card:nth-child(2){animation-delay:0.4s}
+.poem-card:nth-child(3){animation-delay:0.6s}
+.poem-card:nth-child(4){animation-delay:0.8s}
 
+/* Enhanced card visuals */
     .card-img{
-      height:200px;background:linear-gradient(135deg,var(--accent-light),var(--accent));
-      display:flex;align-items:center;justify-content:center;color:#fff;font-size:48px;
-      opacity:0.9;
+      position:relative;
+      height:260px; /* tăng kích thước để thu hút */
+      border-radius:16px 16px 0 0;
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-size:64px;opacity:0.98;
+      overflow:hidden;transition:transform .45s cubic-bezier(.2,.9,.3,1), box-shadow .35s;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
     }
-    .card-content{padding:24px}
-    .card-content h3{
-      font-family:'Playfair Display',serif;font-size:24px;margin-bottom:10px;color:var(--accent);
+    .card-img::after{
+      content:"";
+      position:absolute;inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.03));
+      pointer-events:none;
+      mix-blend-mode: overlay;
     }
-    .card-content p{
-      color:var(--muted);font-size:15px;
+    .card-img i{font-size:72px;transition:transform .5s ease, filter .3s;filter: drop-shadow(0 6px 18px rgba(0,0,0,0.15));}
+    .poem-card:hover .card-img{transform:translateY(-8px) scale(1.02); box-shadow:0 30px 60px rgba(0,0,0,0.14);}
+    .poem-card:hover .card-img i{transform:scale(1.14) rotate(-6deg);}
+
+    /* Small floating badge for attention */
+    .card-badge{
+      position:absolute;top:12px;left:12px;
+      background:rgba(255,255,255,0.12);color:#fff;padding:6px 10px;border-radius:999px;
+      font-weight:700;font-size:12px;backdrop-filter:blur(6px);
+      text-transform:uppercase;letter-spacing:0.6px;
+    }
+
+    /* Per-card color themes */
+.card-img--dog{ background:linear-gradient(135deg,#f8d9c8 0%, #f4a77b 100%); }
+.card-img--comment{ background:linear-gradient(135deg,#c9d8e0 0%, #8fb3c1 100%); }
+.card-img--heart{ background:linear-gradient(135deg,#f3b0b8 0%, #a6423a 100%); }
+/* 'Lên án' theme (nổi bật) */
+.card-img--accuse{ background:linear-gradient(135deg,#ffefe8 0%, #d9534f 100%); color:#fff; }
+
+    /* ensure responsive scale */
+    @media(max-width:768px){
+      .card-img{height:200px;font-size:56px}
+      .card-img i{font-size:56px}
     }
 
     /* Modal Reader */
@@ -150,6 +180,24 @@
       margin:20px 0;text-align:center;font-style:italic;
     }
     .poem-content strong{color:var(--accent)}
+
+    /* Author / Contributor block */
+    .author-section{
+      margin-top:40px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(250,246,241,0.9));
+      padding:22px;border-radius:14px;display:flex;gap:20px;align-items:center;
+      box-shadow:0 12px 30px rgba(0,0,0,0.06);
+    }
+    .author-avatar{
+      width:96px;height:96px;border-radius:50%;
+      background:linear-gradient(135deg,var(--accent-light),var(--accent));
+      color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;
+      flex:0 0 96px;
+    }
+    .author-info h3{margin:0;font-size:20px;color:var(--accent);font-family:'Playfair Display',serif;}
+    .author-info p{margin:8px 0 0;color:var(--muted);line-height:1.5;}
+    .author-team{display:inline-block;margin-top:10px;padding:6px 10px;border-radius:999px;
+      background:var(--accent);color:#fff;font-weight:700;font-size:13px;}
 
     /* Animations */
     @keyframes fadeUp{
@@ -199,7 +247,10 @@
       <div class="poem-grid" id="tac-pham">
         <!-- Poem 1 -->
         <div class="poem-card" onclick="openPoem('poem1')">
-          <div class="card-img"><i class="fas fa-dog"></i></div>
+          <div class="card-img card-img--dog">
+            <span class="card-badge">vui</span>
+            <i class="fas fa-dog" aria-hidden="true"></i>
+          </div>
           <div class="card-content">
             <h3>Bạn chó — Thơ 4 đoạn</h3>
             <p>Một bài thơ vui nhưng thấm, nói về tình bạn kỳ lạ giữa người và... một đứa bạn như con chó.</p>
@@ -208,7 +259,10 @@
 
         <!-- Poem 2 -->
         <div class="poem-card" onclick="openPoem('poem2')">
-          <div class="card-img"><i class="fas fa-comment-dots"></i></div>
+          <div class="card-img card-img--comment">
+            <span class="card-badge">bản dài</span>
+            <i class="fas fa-comment-dots" aria-hidden="true"></i>
+          </div>
           <div class="card-content">
             <h3>Nết người ở lời nói — Bản dài</h3>
             <p>Lời nói thể hiện nhân cách. Bản mở rộng 4 đoạn.</p>
@@ -217,13 +271,39 @@
 
         <!-- Poem 3 - MỚI -->
         <div class="poem-card" onclick="openPoem('poem3')">
-          <div class="card-img"><i class="fas fa-heart-broken"></i></div>
+          <div class="card-img card-img--heart">
+            <span class="card-badge">mới</span>
+            <i class="fas fa-heart-broken" aria-hidden="true"></i>
+          </div>
           <div class="card-content">
             <h3>Lời nói dối ngọt ngào</h3>
             <p>Lên án sự dối trá được bọc trong lớp vỏ dịu dàng — bài thơ mới nhất.</p>
           </div>
         </div>
+
+        <!-- Poem 4 - Lên án sự giả dối -->
+        <div class="poem-card" onclick="openPoem('poem4')">
+          <div class="card-img card-img--accuse">
+            <span class="card-badge">lên án</span>
+            <i class="fas fa-gavel" aria-hidden="true"></i>
+          </div>
+          <div class="card-content">
+            <h3>Lên án sự giả dối và lối sống lợi dụng tình cảm</h3>
+            <p>Thơ lên án sự giả dối, những kẻ lợi dụng lòng tin để thỏa mãn thói quen và sự trống trải.</p>
+          </div>
+        </div>
       </div>
+
+     <!-- About / Author section (linked from nav #ve) -->
+     <section id="ve" class="author-section" aria-labelledby="author-title">
+       <div class="author-avatar" aria-hidden="true">TL</div>
+       <div class="author-info">
+         <h3 id="author-title">Về tác giả & đội ngũ</h3>
+         <p>Trang này là kết quả hợp tác với một số nhà thơ cùng những cây bút độc lập — đồng hành để trao gửi cảm xúc chân thành qua từng câu chữ. Nội dung được biên tập và vận hành bởi <span class="author-team">TLGB Team</span>.</p>
+         <p>TLGB Team hỗ trợ tuyển chọn tác phẩm, liên hệ tác giả và phát triển cộng đồng người yêu thơ — nếu bạn muốn cộng tác, hãy liên hệ để cùng lan tỏa những dòng thơ có chiều sâu.</p>
+       </div>
+     </section>
+
     </div>
   </main>
 
@@ -260,6 +340,35 @@
     <p>Thôi thì học cách đứng lên sau vấp ngã,<br>Dọn lại tim, phủi sạch bụi muộn phiền.<br>Sự thật, dù đau, vẫn là điều đẹp nhất,<br>Vì giúp ta mạnh mẽ… hơn những lần trước.</p>
   </template>
 
+  <template id="poem4">
+    <h2>Lên án sự giả dối và lối sống lợi dụng tình cảm</h2>
+    <p>Trong những góc tối đời người,<br>
+    Có kẻ giấu trái tim mình sau nghìn lớp mặt.<br>
+    Cười thì ngọt, nói thì hay,<br>
+    Nhưng lòng lại gieo thêm bao vết cắt.</p>
+
+    <p>Đi qua ai cũng vội nhặt<br>
+    Một chút thương, một chút tin, rồi bỏ mặc sau lưng.<br>
+    Tình cảm biến thành trò chơi,<br>
+    Hứa hẹn biến thành gió — thoáng rồi không giữ nổi một lần.</p>
+
+    <p>Những cuộc tình đếm bằng thói quen,<br>
+    Không bằng trân trọng.<br>
+    Những tin nhắn nửa đêm<br>
+    Chỉ để lấp khoảng trống chứ nào phải thật lòng.</p>
+
+    <p>Ta chẳng trách vẻ ngoài long lanh,<br>
+    Chỉ trách trái tim hoài tìm điều mới mẻ.<br>
+    Phản bội không chừa ai,<br>
+    Nhưng kẻ gieo đau —<br>
+    sớm muộn gì cũng nhận về mất mát của chính mình.</p>
+
+    <p>Tình yêu không phải tấm vé đổi lấy sự chú ý,<br>
+    Càng không phải chiếc chìa để mở từng cánh cửa lòng mọi người.<br>
+    Ai sống thật rồi sẽ gặp thật,<br>
+    Ai dối trá rồi sẽ mất đi người duy nhất từng muốn giữ mình suốt đời.</p>
+  </template>
+
   <script>
     // Header scroll effect
     window.addEventListener('scroll', () => {
@@ -284,5 +393,6 @@
       if (e.key === 'Escape') closeModal();
     });
   </script>
+  <script src="https://messenger.svc.chative.io/static/v1.0/channels/s51de13cb-e497-4d27-8048-72589981d618/messenger.js?mode=livechat" defer="defer"></script>
 </body>
 </html>
