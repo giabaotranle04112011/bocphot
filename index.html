@@ -108,6 +108,7 @@
 .poem-card:nth-child(2){animation-delay:0.4s}
 .poem-card:nth-child(3){animation-delay:0.6s}
 .poem-card:nth-child(4){animation-delay:0.8s}
+.poem-card:nth-child(5){animation-delay:1s}
 
 /* Enhanced card visuals */
     .card-img{
@@ -144,6 +145,8 @@
 .card-img--heart{ background:linear-gradient(135deg,#f3b0b8 0%, #a6423a 100%); }
 /* 'Lên án' theme (nổi bật) */
 .card-img--accuse{ background:linear-gradient(135deg,#ffefe8 0%, #d9534f 100%); color:#fff; }
+/* Trend / lên án theme */
+.card-img--trend { background: linear-gradient(135deg,#ffe7a8 0%, #ff9f7a 60%, #a86bff 100%); color:#1a0b2e; }
 
     /* ensure responsive scale */
     @media(max-width:768px){
@@ -292,6 +295,18 @@
             <p>Thơ lên án sự giả dối, những kẻ lợi dụng lòng tin để thỏa mãn thói quen và sự trống trải.</p>
           </div>
         </div>
+
+        <!-- Poem 5 - Trend và cái tôi hời hợt (lên án) -->
+        <div class="poem-card" onclick="openPoem('poem5')">
+          <div class="card-img card-img--trend">
+            <span class="card-badge">lên án</span>
+            <i class="fas fa-hashtag" aria-hidden="true"></i>
+          </div>
+          <div class="card-content">
+            <h3>Trend và cái tôi hời hợt</h3>
+            <p>Lên án thói chạy theo trend, mất đi tiếng nói và chiều sâu cảm xúc.</p>
+          </div>
+        </div>
       </div>
 
      <!-- About / Author section (linked from nav #ve) -->
@@ -367,6 +382,29 @@
     Càng không phải chiếc chìa để mở từng cánh cửa lòng mọi người.<br>
     Ai sống thật rồi sẽ gặp thật,<br>
     Ai dối trá rồi sẽ mất đi người duy nhất từng muốn giữ mình suốt đời.</p>
+  </template>
+
+  <template id="poem5">
+    <h2>Trend và cái tôi hời hợt</h2>
+    <p>Trên TikTok, ai cũng muốn tỏa sáng,<br>
+    Nhảy te te, múa quay, cười nói vô vàn.<br>
+    “Trend mới, trend hot, phải theo cho kịp”,<br>
+    Nhưng tim thì trống rỗng, lời nói chẳng thật.</p>
+
+    <p>Một bước nhảy, một bộ filter lấp lánh,<br>
+    Chỉ để thu lượt xem, để nhận vài trái tim ảo.<br>
+    Người ta nhìn, gật gù, khen nụ cười xinh,<br>
+    Nhưng bên trong, chẳng ai biết bạn là ai.</p>
+
+    <p>Trend trôi nhanh, rồi lại một trend khác,<br>
+    Ai còn nhớ những clip hôm qua? Chẳng ai.<br>
+    Mỗi lượt tim chỉ là số, chẳng phải cảm xúc,<br>
+    Và cái tôi thật bị bỏ quên giữa dòng meme.</p>
+
+    <p>Nếu muốn nổi, đừng chỉ nhảy theo số đông,<br>
+    Hãy nhảy theo chính mình, theo tim thật.<br>
+    Đừng để trend đánh cắp tuổi trẻ và tiếng nói,<br>
+    Kẻ chạy theo trend rồi sẽ thấy trống trải nơi tâm hồn.</p>
   </template>
 
   <script>
