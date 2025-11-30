@@ -319,61 +319,6 @@
        </div>
      </section>
 
-    <!-- Admin: MAC block instructions & demo (cannot detect MAC from browser) -->
-    <section id="admin-mac-block" style="margin-top:28px;padding:18px;border-radius:12px;background:#fff;box-shadow:var(--shadow);">
-      <h3 style="margin:0 0 8px;color:var(--accent);font-family:'Playfair Display',serif;">Chặn theo địa chỉ MAC (hướng dẫn cho admin)</h3>
-      <p style="margin:0 0 8px;color:var(--muted);">Lưu ý: trình duyệt web không cung cấp địa chỉ MAC của thiết bị. Để chặn chính xác MAC <strong>56:5f:f4:8c:a4:bb</strong> bạn phải làm ở tầng mạng (router / firewall) hoặc qua proxy/captive-portal cấp header chứa MAC.</p>
-
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:280px">
-          <strong>1) Trên router / firewall (ví dụ OpenWrt UCI)</strong>
-          <pre style="background:#f6f6f6;padding:10px;border-radius:6px;font-size:13px;overflow:auto">
-# OpenWrt - thêm rule chặn theo MAC
-uci add firewall rule
-uci set firewall.@rule[-1].src='lan'
-uci set firewall.@rule[-1].mac='56:5f:f4:8c:a4:bb'
-uci set firewall.@rule[-1].target='REJECT'
-uci commit firewall
-/etc/init.d/firewall restart
-          </pre>
-        </div>
-
-        <div style="flex:1;min-width:280px">
-          <strong>2) Trên Linux/router (iptables — chỉ áp dụng khi client ở cùng LAN)</strong>
-          <pre style="background:#f6f6f6;padding:10px;border-radius:6px;font-size:13px;overflow:auto">
-sudo iptables -I INPUT -m mac --mac-source 56:5f:f4:8c:a4:bb -j DROP
-          </pre>
-          <strong>nftables (bridge/ether):</strong>
-          <pre style="background:#f6f6f6;padding:10px;border-radius:6px;font-size:13px;overflow:auto">
-sudo nft add rule bridge filter input ether saddr 56:5f:f4:8c:a4:bb drop
-          </pre>
-        </div>
-      </div>
-
-      <div style="margin-top:12px;">
-        <strong>3) Ở tầng ứng dụng (khi proxy/captive portal gắn header X-Client-MAC)</strong>
-        <pre style="background:#f6f6f6;padding:10px;border-radius:6px;font-size:13px;overflow:auto">
-// Express middleware example (server must receive X-Client-MAC)
-const BLOCKED = '56:5f:f4:8c:a4:bb';
-app.use((req, res, next) =&gt; {
-  const mac = (req.get('x-client-mac') || '').toLowerCase();
-  if (mac === BLOCKED) return res.status(403).send('Access denied');
-  next();
-});
-        </pre>
-      </div>
-
-      <div style="margin-top:12px;color:var(--muted);font-size:14px;">
-        <strong>Demo client-side (không thực sự chặn MAC)</strong>
-        <p>Đây chỉ là form giả lập để bạn thử hiển thị overlay khi nhập đúng MAC. <em>KHÔNG</em> dùng làm biện pháp bảo mật.</p>
-        <form id="mac-demo-form" onsubmit="event.preventDefault();">
-          <input id="mac-input" placeholder="Nhập MAC (ví dụ 56:5f:f4:8c:a4:bb)" style="padding:8px;border-radius:6px;border:1px solid #ddd;width:320px" />
-          <button id="mac-check" type="button" style="margin-left:8px;padding:8px 12px;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer">Kiểm tra</button>
-        </form>
-        <div id="mac-demo-overlay" style="display:none;margin-top:12px;padding:12px;border-radius:8px;background:#ffecec;color:#7a1a1a;font-weight:700;">Truy cập bị chặn (demo): MAC khớp 56:5f:f4:8c:a4:bb</div>
-      </div>
-    </section>
-
     </div>
   </main>
 
@@ -445,14 +390,17 @@ app.use((req, res, next) =&gt; {
     Nhảy te te, múa quay, cười nói vô vàn.<br>
     “Trend mới, trend hot, phải theo cho kịp”,<br>
     Nhưng tim thì trống rỗng, lời nói chẳng thật.</p>
+
     <p>Một bước nhảy, một bộ filter lấp lánh,<br>
     Chỉ để thu lượt xem, để nhận vài trái tim ảo.<br>
     Người ta nhìn, gật gù, khen nụ cười xinh,<br>
     Nhưng bên trong, chẳng ai biết bạn là ai.</p>
+
     <p>Trend trôi nhanh, rồi lại một trend khác,<br>
     Ai còn nhớ những clip hôm qua? Chẳng ai.<br>
     Mỗi lượt tim chỉ là số, chẳng phải cảm xúc,<br>
     Và cái tôi thật bị bỏ quên giữa dòng meme.</p>
+
     <p>Nếu muốn nổi, đừng chỉ nhảy theo số đông,<br>
     Hãy nhảy theo chính mình, theo tim thật.<br>
     Đừng để trend đánh cắp tuổi trẻ và tiếng nói,<br>
