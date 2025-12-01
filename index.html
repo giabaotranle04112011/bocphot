@@ -72,6 +72,22 @@
     nav a:hover{color:var(--accent)}
     nav a:hover::after{width:100%}
 
+    /* Search + theme toggle styles */
+    .header-actions{display:flex;align-items:center;gap:12px}
+    .search-form{display:flex;align-items:center;background:rgba(0,0,0,0.03);padding:6px;border-radius:8px}
+    .search-form input{border:0;background:transparent;padding:6px 8px;width:220px;font-family:inherit}
+    .search-form button{border:0;background:var(--accent);color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
+    .theme-toggle{border:0;background:transparent;padding:6px 8px;border-radius:8px;cursor:pointer;font-size:18px;color:var(--accent)}
+    .poem-card.match{outline:3px solid rgba(166,66,58,0.15);transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,0.12)}
+
+    /* Dark theme */
+    :root{ --bg:#faf6f1; --text:#2c1e1a; --muted:#7a6b5e; --accent:#a6423a; --card:#ffffff; }
+    [data-theme="dark"]{
+      --bg:#0f1114; --text:#e6e6e6; --muted:#bfbfbf; --accent:#ffb3a7; --card:#101217;
+    }
+    body{ background:linear-gradient(135deg,var(--bg), #f5e9e2); color:var(--text); transition:background .3s,color .3s;}
+    .poem-card, .modal-content, .author-section{ background:var(--card); transition:background .3s,color .3s;}
+
     /* Main */
     main{padding:120px 20px 80px}
     .container{max-width:1100px;margin:0 auto}
@@ -133,6 +149,8 @@
 .poem-card:nth-child(6){ animation-delay: 1.2s; }
 /* thêm delay cho card thứ 7 */
 .poem-card:nth-child(7){ animation-delay: 1.4s; }
+/* thêm delay cho card thứ 8 */
+.poem-card:nth-child(8){ animation-delay: 1.6s; }
 
 /* Enhanced card visuals */
     .card-img{
@@ -181,6 +199,11 @@
   background: linear-gradient(135deg,#fff1f2 0%, #ffccd5 40%, #ff6b6b 100%);
   color:#2b0b0b;
   box-shadow: 0 12px 40px rgba(255,80,80,0.08);
+}
+/* Many-faces theme */
+.card-img--multi {
+  background: linear-gradient(135deg,#fff7e6 0%, #ffd1e6 45%, #cdb4ff 100%);
+  color:#311130;
 }
 
     /* ensure responsive scale */
@@ -268,6 +291,13 @@
       <div class="logo">
         <i class="fas fa-feather-alt"></i> Văn Học & Lá Thư
       </div>
+     <div class="header-actions">
+       <form id="searchForm" class="search-form" onsubmit="return handleSearch(event)">
+         <input id="searchInput" type="search" placeholder="Tìm bài thơ, tiêu đề..." aria-label="Tìm bài thơ" />
+         <button type="submit" title="Tìm">Tìm</button>
+       </form>
+       <button id="themeToggle" class="theme-toggle" title="Chuyển chế độ">🌙</button>
+     </div>
       <nav>
         <a href="#">Trang chủ</a>
         <a href="#tac-pham">Tác phẩm</a>
@@ -371,6 +401,18 @@
           <div class="card-content">
             <h3>Miệng nói yêu thương, lời gai độc</h3>
             <p>Lên án thói chửi bới, lăng mạ mẹ người khác — lời nói thể hiện tâm.</p>
+          </div>
+        </div>
+
+        <!-- Poem 8 - NHIỀU MẶT NHƯ TỜ LỊCH -->
+        <div class="poem-card" onclick="openPoem('poem8')">
+          <div class="card-img card-img--multi">
+            <span class="card-badge">phê bình</span>
+            <i class="fas fa-mask-theater" aria-hidden="true"></i>
+          </div>
+          <div class="card-content">
+            <h3>Nhiều mặt như tờ lịch</h3>
+            <p>Vạch trần lối sống hai mặt, lời khuyên sống thật để khỏi khiến người khác mệt mỏi.</p>
           </div>
         </div>
       </div>
@@ -517,6 +559,29 @@
     Thì tự nó đã là bằng chứng.</p>
   </template>
 
+  <template id="poem8">
+    <h2>NHIỀU MẶT NHƯ TỜ LỊCH</h2>
+    <p>Có người phụ nữ lạ lùng thay,<br>
+    Sáng dạ vâng thưa gửi rất là hay,<br>
+    Trưa quay ngoắt chửi thề như gió bão,<br>
+    Chiều lại hóa “chó dại” chạy tung bay.</p>
+
+    <p>Tối đăng status than đời cho… người lớn,<br>
+    Khuya bật mode “điên nhẹ” để câu view.<br>
+    Hỏi sao vậy? — “Em đa nhân cách xíu”,<br>
+    Nhột thì nổi đóa, hiền thì… tùy buổi chiều.</p>
+
+    <p>Miệng nói đạo lý, tay lại gieo thị phi,<br>
+    Thấy ai góp ý là lập tức sân si.<br>
+    Mặt hôm nay ngọt, mai thì cay như ớt,<br>
+    Sống hai ba vai diễn cứ đổi lia lìa y như phim truyền hình dài tập miễn phí.</p>
+
+    <p>Người đời đâu ác, chỉ mong chị sống thật,<br>
+    Một màu cũng được — khỏi cần xoay 7749 mặt.<br>
+    Cho thiên hạ đỡ mệt, web tôi đăng cũng đỡ run,<br>
+    Sợ ai nhột quá lại bảo “ám chỉ tui” rồi quậy tung.</p>
+  </template>
+
   <script>
     // Header scroll effect
     window.addEventListener('scroll', () => {
@@ -537,8 +602,52 @@
     }
 
     // Close with ESC
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeModal();
+        document.addEventListener('keydown', e => {
+          if (e.key === 'Escape') closeModal();
+        });
+
+    // --- Search handling (client-side) ---
+    function handleSearch(e){
+      if(e) e.preventDefault();
+      const q = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+      const cards = Array.from(document.querySelectorAll('.poem-card'));
+      document.querySelectorAll('.poem-card.match').forEach(el=>el.classList.remove('match'));
+      if(!q){ if(cards.length) cards[0].scrollIntoView({behavior:'smooth',block:'center'}); return false; }
+      let first = null;
+      cards.forEach(card=>{
+        const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
+        const desc = (card.querySelector('.card-content p')?.textContent || '').toLowerCase();
+        if(title.includes(q) || desc.includes(q)){
+          card.classList.add('match');
+          if(!first) first = card;
+        }
+      });
+      if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
+      else alert('Không tìm thấy kết quả.');
+      return false;
+    }
+
+    // allow Enter key in search input to trigger search
+    document.getElementById('searchInput')?.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){ this.value=''; handleSearch(); }
+    });
+
+    // --- Theme toggle ---
+    const themeToggle = document.getElementById('themeToggle');
+    function applyTheme(theme){
+      if(theme === 'dark') document.documentElement.setAttribute('data-theme','dark');
+      else document.documentElement.removeAttribute('data-theme');
+      themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem('site-theme', theme);
+    }
+    // on load restore
+    (function(){
+      const saved = localStorage.getItem('site-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      applyTheme(saved);
+    })();
+    themeToggle.addEventListener('click', function(){ 
+      const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
     });
   </script>
   <script src="https://messenger.svc.chative.io/static/v1.0/channels/s51de13cb-e497-4d27-8048-72589981d618/messenger.js?mode=livechat" defer="defer"></script>
