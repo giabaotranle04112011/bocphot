@@ -130,6 +130,9 @@
 .poem-card:nth-child(3){animation-delay:0.6s}
 .poem-card:nth-child(4){animation-delay:0.8s}
 .poem-card:nth-child(5){animation-delay:1s}
+.poem-card:nth-child(6){ animation-delay: 1.2s; }
+/* thêm delay cho card thứ 7 */
+.poem-card:nth-child(7){ animation-delay: 1.4s; }
 
 /* Enhanced card visuals */
     .card-img{
@@ -168,6 +171,17 @@
 .card-img--accuse{ background:linear-gradient(135deg,#ffefe8 0%, #d9534f 100%); color:#fff; }
 /* Trend / lên án theme */
 .card-img--trend { background: linear-gradient(135deg,#ffe7a8 0%, #ff9f7a 60%, #a86bff 100%); color:#1a0b2e; }
+/* Interaction / cày tương tác theme */
+.card-img--interact {
+  background: linear-gradient(135deg,#ffe2f0 0%, #ff9fb8 50%, #ff6b8a 100%);
+  color:#2b0713;
+}
+/* 'Gai độc' / chửi mắng theme */
+.card-img--bite {
+  background: linear-gradient(135deg,#fff1f2 0%, #ffccd5 40%, #ff6b6b 100%);
+  color:#2b0b0b;
+  box-shadow: 0 12px 40px rgba(255,80,80,0.08);
+}
 
     /* ensure responsive scale */
     @media(max-width:768px){
@@ -335,6 +349,30 @@
             <p>Lên án thói chạy theo trend, mất đi tiếng nói và chiều sâu cảm xúc.</p>
           </div>
         </div>
+
+        <!-- Poem 6 - Cày tương tác hay cày trái tim người ta? -->
+        <div class="poem-card" onclick="openPoem('poem6')">
+          <div class="card-img card-img--interact">
+            <span class="card-badge">lên án</span>
+            <i class="fas fa-user-friends" aria-hidden="true"></i>
+          </div>
+          <div class="card-content">
+            <h3>Cày tương tác hay cày trái tim người ta?</h3>
+            <p>Thơ lên án việc lợi dụng tương tác để đánh đổi cảm xúc thật của người khác.</p>
+          </div>
+        </div>
+
+        <!-- Poem 7 - Miệng nói yêu thương, lời gai độc -->
+        <div class="poem-card" onclick="openPoem('poem7')">
+          <div class="card-img card-img--bite">
+            <span class="card-badge">lên án</span>
+            <i class="fas fa-microphone-slash" aria-hidden="true"></i>
+          </div>
+          <div class="card-content">
+            <h3>Miệng nói yêu thương, lời gai độc</h3>
+            <p>Lên án thói chửi bới, lăng mạ mẹ người khác — lời nói thể hiện tâm.</p>
+          </div>
+        </div>
       </div>
 
      <!-- About / Author section (linked from nav #ve) -->
@@ -430,6 +468,53 @@
     Hãy nhảy theo chính mình, theo tim thật.<br>
     Đừng để trend đánh cắp tuổi trẻ và tiếng nói,<br>
     Kẻ chạy theo trend rồi sẽ thấy trống trải nơi tâm hồn.</p>
+  </template>
+
+  <template id="poem6">
+    <h2>💔 Cày tương tác hay cày trái tim người ta? 💔</h2>
+    <p>Có cô gái bảo rằng: “Em chỉ cày tương tác thôi mà!”<br>
+    Mà acc chính, acc phụ lập ra… chẳng nhớ nổi bao nhiêu là.<br>
+    Sáng nhắn trai A: “Anh ơi em buồn…”<br>
+    Tối thả tim trai B: “Anh ngủ chưa?” — nhìn thôi cũng muốn xuống luôn tinh thần.</p>
+
+    <p>Story đăng thì nửa kín nửa hở,<br>
+    Ảnh mập mờ, caption thơ — mà nội dung toàn… gợi mở.<br>
+    Ai vô lỡ hỏi đôi câu lại bảo: “Ờ đang thử hiệu ứng mới thôi!”<br>
+    Nhưng tương tác một hồi, thành ra bao người lại rối.</p>
+
+    <p>Cày tương tác mà sao gieo thêm trăm lời hứa?<br>
+    Cày tương tác mà nhắn ai cũng ngọt như đường mía?<br>
+    Nếu vô tình, sao lại chăm “tưới nước” từng người?<br>
+    Nếu không cố, sao ai cũng tưởng mình đang được chọn giữa muôn lời?</p>
+
+    <p>Thôi thì xin nhẹ đôi câu cho tỉnh táo:<br>
+    Nét đẹp không nằm ở cái cách khoe… mà ở cái cách giữ mình cho không xao đảo.<br>
+    Đàn ông đâu có ngốc, họ chỉ tử tế chứ không mù.<br>
+    Còn ai sống hai ba mặt, thì một ngày nào đó, chính mình… tự lộ ra từ từ.</p>
+  </template>
+
+  <template id="poem7">
+    <h2>🔥 Miệng nói yêu thương, nhưng lời thốt ra toàn gai độc 🔥</h2>
+    <p>Có kẻ miệng lúc nào cũng “mẹ này mẹ nọ”,<br>
+    Câu nói đi chưa hết nửa dòng đã cay xè như ớt đỏ.<br>
+    Tưởng ngầu, tưởng chất, tưởng mình mạnh mẽ nhất đời,<br>
+    Nhưng cái mạnh duy nhất… là mạnh miệng làm đau lòng người.</p>
+
+    <p>Chửi xéo ai thì cũng lôi mẹ người ta vào câu nói,<br>
+    Như thể trên đời chỉ mình họ có quyền làm tổn thương, có quyền chạm tới.<br>
+    Nghĩ mình hài hước? Không. Chỉ là thô tục và kém duyên.<br>
+    Vết thương để lại từ miệng họ — chẳng nước nào rửa sạch, chẳng lời nào nguôi yên.</p>
+
+    <p>Nói tục để thể hiện à? Nhưng sự thật chỉ phơi ra cái thiếu tôn trọng, thiếu văn hóa.<br>
+    Còn nói xấu mẹ người ta — là cái hèn lớn nhất mà một con người có thể bước qua.<br>
+    Mẹ là người sinh ra mỗi cuộc đời, đâu đáng bị kéo vào cuộc cãi vã rẻ tiền,<br>
+    Ai động tới mẹ người khác… là đang tự bộc lộ cái tâm nhỏ như hạt cát, chẳng còn gì để tin.</p>
+
+    <p>Thử một lần chửi… mà không lôi mẹ ai vào xem có còn “duyên dáng” nữa không?<br>
+    Hay rồi im lặng, vì chẳng còn câu nào để giấu cái trống rỗng trong lòng.<br>
+    Lời nói là gương soi người — soi đâu thấy nết, chỉ thấy tánh thô cứng.<br>
+    Còn cái miệng quen xúc phạm mẹ người khác…<br>
+    Thì tự nó đã là bằng chứng.</p>
   </template>
 
   <script>
