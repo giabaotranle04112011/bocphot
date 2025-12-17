@@ -1,655 +1,411 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Văn Học & Lá Thư — Thơ hay, cảm xúc thật</title>
-  <meta name="description" content="Góc nhỏ chứa những dòng thơ chạm đến trái tim. Đọc thơ, cảm đời." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giới thiệu nhẹ nhưng xịn</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@700&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Font Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#faf6f1;
-      --text:#2c1e1a;
-      --muted:#7a6b5e;
-      --accent:#a6423a;
-      --accent-light:#d4786e;
-      --card:#ffffff;
-      --shadow:0 15px 35px rgba(0,0,0,0.08);
-      --radius:18px;
-    }
-    *,*::before,*::after{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:'Cormorant Garamond',serif;
-      background:linear-gradient(135deg, #fffaf5, #f5e9e2);
-      color:var(--text);
-      line-height:1.7;
-      overflow-x:hidden;
+    :root {
+      --bg1: #0f0f1e;
+      --bg2: #0a0a1a;
+      --card: rgba(20, 25, 45, 0.75);
+      --border: rgba(100, 120, 160, 0.2);
+      --text: #f0f2f5;
+      --muted: #94a3b8;
+      --accent1: #38bdf8;
+      --accent2: #a78bfa;
+      --accent3: #34d399;
+      --accent4: #fbbf24;
     }
 
-    /* Animated Background */
-    .bg-animation{
-      position:fixed;inset:0;z-index:-2;
-      background:linear-gradient(120deg, #ffebeb, #e6f0ff, #fff8e6, #f0e6f8);
-      background-size:400% 400%;
-      animation:gradient 18s ease infinite;
-    }
-    @keyframes gradient{
-      0%{background-position:0% 50%}
-      50%{background-position:100% 50%}
-      100%{background-position:0% 50%}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 20% 20%, #1e1b4b, transparent 70%),
+                  radial-gradient(1000px 600px at 80% 80%, #134e4a, transparent 70%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow: hidden;
+      position: relative;
     }
 
-    /* Header */
-    header{
-      position:fixed;top:0;left:0;right:0;z-index:100;
-      padding:18px 30px;
-      backdrop-filter:blur(12px);
-      background:rgba(255,255,255,0.75);
-      box-shadow:0 4px 20px rgba(0,0,0,0.06);
-      transition:0.4s;
+    /* Animated Blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.22;
+      animation: float 20s ease-in-out infinite;
     }
-    header.scrolled{background:rgba(255,255,255,0.95);box-shadow:0 8px 30px rgba(0,0,0,0.12)}
-    .nav-container{
-      max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;
-    }
-    .logo{
-      display:flex;align-items:center;gap:14px;font-size:28px;font-weight:700;
-      color:var(--accent);font-family:'Playfair Display',serif;
-    }
-    .logo i{font-size:32px;animation:float 4s ease-in-out infinite}
-    nav a{
-      margin-left:28px;text-decoration:none;color:var(--muted);font-family:'Montserrat',sans-serif;
-      font-weight:500;position:relative;transition:0.3s;
-    }
-    nav a::after{
-      content:'';position:absolute;bottom:-6px;left:0;width:0;height:2px;
-      background:var(--accent);transition:0.3s;
-    }
-    nav a:hover{color:var(--accent)}
-    nav a:hover::after{width:100%}
+    .blob:nth-child(1) { width: 500px; height: 500px; top: -150px; left: -150px; background: linear-gradient(135deg, var(--accent1), var(--accent2)); }
+    .blob:nth-child(2) { width: 600px; height: 600px; bottom: -200px; right: -200px; background: linear-gradient(135deg, var(--accent3), var(--accent4)); animation-delay: -8s; }
+    .blob:nth-child(3) { width: 400px; height: 400px; top: 50%; left: 60%; background: linear-gradient(135deg, var(--accent2), var(--accent1)); opacity: 0.15; animation-delay: -14s; }
 
-    /* Search + theme toggle styles */
-    .header-actions{display:flex;align-items:center;gap:12px}
-    .search-form{display:flex;align-items:center;background:rgba(0,0,0,0.03);padding:6px;border-radius:8px}
-    .search-form input{border:0;background:transparent;padding:6px 8px;width:220px;font-family:inherit}
-    .search-form button{border:0;background:var(--accent);color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
-    .theme-toggle{border:0;background:transparent;padding:6px 8px;border-radius:8px;cursor:pointer;font-size:18px;color:var(--accent)}
-    .poem-card.match{outline:3px solid rgba(166,66,58,0.15);transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,0.12)}
-
-    /* Dark theme */
-    :root{ --bg:#faf6f1; --text:#2c1e1a; --muted:#7a6b5e; --accent:#a6423a; --card:#ffffff; }
-    [data-theme="dark"]{
-      --bg:#0f1114; --text:#e6e6e6; --muted:#bfbfbf; --accent:#ffb3a7; --card:#101217;
-    }
-    body{ background:linear-gradient(135deg,var(--bg), #f5e9e2); color:var(--text); transition:background .3s,color .3s;}
-    .poem-card, .modal-content, .author-section{ background:var(--card); transition:background .3s,color .3s;}
-
-    /* Main */
-    main{padding:120px 20px 80px}
-    .container{max-width:1100px;margin:0 auto}
-
-    h1{
-      font-family:'Playfair Display',serif;font-size:48px;text-align:center;
-      margin-bottom:16px;background:linear-gradient(90deg,var(--accent),#d4786e);
-      background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
-      animation:glowText 4s ease-in-out infinite alternate;
-    }
-    @keyframes glowText{
-      from{text-shadow:0 0 20px rgba(166,66,58,0.3)}
-      to{text-shadow:0 0 30px rgba(166,66,58,0.5)}
-    }
-    .subtitle{
-      text-align:center;color:var(--muted);font-size:18px;max-width:680px;margin:0 auto 50px;
-      font-style:italic;
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(50px, -60px) rotate(5deg); }
+      66% { transform: translate(-40px, 40px) rotate(-5deg); }
     }
 
-    /* Reading warning */
-    .warning-note{
-      max-width:760px;
-      margin:12px auto 22px;
-      padding:10px 14px;
-      border-radius:10px;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      background:linear-gradient(90deg,#fffaf0,#fff4e8);
-      border-left:4px solid #f39c12;
-      color:#6b3b2f;
-      font-weight:600;
-      font-size:14px;
-    }
-    .warning-note .wn-icon{font-size:18px}
-    .warning-note .wn-close{
-      margin-left:auto;
-      background:transparent;border:0;color:#6b3b2f;font-size:18px;cursor:pointer;padding:4px;
+    /* Card */
+    .card {
+      position: relative;
+      max-width: 580px;
+      width: calc(100% - 40px);
+      padding: 40px 36px;
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 32px 90px rgba(0,0,0,0.6),
+                  inset 0 1px 0 rgba(255,255,255,0.06);
+      animation: cardIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      z-index: 10;
     }
 
-    /* Poem Cards Grid */
-    .poem-grid{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;
-      margin-top:50px;
-    }
-    .poem-card{
-      background:var(--card);border-radius:var(--radius);overflow:hidden;
-      box-shadow:var(--shadow);cursor:pointer;transition:0.4s;opacity:0;
-      animation:fadeUp 0.8s forwards;
-    }
-    .poem-card:hover{
-      transform:translateY(-12px);box-shadow:0 25px 50px rgba(0,0,0,0.15);
-    }
-    .poem-card:nth-child(1){animation-delay:0.2s}
-.poem-card:nth-child(2){animation-delay:0.4s}
-.poem-card:nth-child(3){animation-delay:0.6s}
-.poem-card:nth-child(4){animation-delay:0.8s}
-.poem-card:nth-child(5){animation-delay:1s}
-.poem-card:nth-child(6){ animation-delay: 1.2s; }
-/* thêm delay cho card thứ 7 */
-.poem-card:nth-child(7){ animation-delay: 1.4s; }
-/* thêm delay cho card thứ 8 */
-.poem-card:nth-child(8){ animation-delay: 1.6s; }
-
-/* Enhanced card visuals */
-    .card-img{
-      position:relative;
-      height:260px; /* tăng kích thước để thu hút */
-      border-radius:16px 16px 0 0;
-      display:flex;align-items:center;justify-content:center;
-      color:#fff;font-size:64px;opacity:0.98;
-      overflow:hidden;transition:transform .45s cubic-bezier(.2,.9,.3,1), box-shadow .35s;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-    }
-    .card-img::after{
-      content:"";
-      position:absolute;inset:0;
-      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.03));
-      pointer-events:none;
-      mix-blend-mode: overlay;
-    }
-    .card-img i{font-size:72px;transition:transform .5s ease, filter .3s;filter: drop-shadow(0 6px 18px rgba(0,0,0,0.15));}
-    .poem-card:hover .card-img{transform:translateY(-8px) scale(1.02); box-shadow:0 30px 60px rgba(0,0,0,0.14);}
-    .poem-card:hover .card-img i{transform:scale(1.14) rotate(-6deg);}
-
-    /* Small floating badge for attention */
-    .card-badge{
-      position:absolute;top:12px;left:12px;
-      background:rgba(255,255,255,0.12);color:#fff;padding:6px 10px;border-radius:999px;
-      font-weight:700;font-size:12px;backdrop-filter:blur(6px);
-      text-transform:uppercase;letter-spacing:0.6px;
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(50px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* Per-card color themes */
-.card-img--dog{ background:linear-gradient(135deg,#f8d9c8 0%, #f4a77b 100%); }
-.card-img--comment{ background:linear-gradient(135deg,#c9d8e0 0%, #8fb3c1 100%); }
-.card-img--heart{ background:linear-gradient(135deg,#f3b0b8 0%, #a6423a 100%); }
-/* 'Lên án' theme (nổi bật) */
-.card-img--accuse{ background:linear-gradient(135deg,#ffefe8 0%, #d9534f 100%); color:#fff; }
-/* Trend / lên án theme */
-.card-img--trend { background: linear-gradient(135deg,#ffe7a8 0%, #ff9f7a 60%, #a86bff 100%); color:#1a0b2e; }
-/* Interaction / cày tương tác theme */
-.card-img--interact {
-  background: linear-gradient(135deg,#ffe2f0 0%, #ff9fb8 50%, #ff6b8a 100%);
-  color:#2b0713;
-}
-/* 'Gai độc' / chửi mắng theme */
-.card-img--bite {
-  background: linear-gradient(135deg,#fff1f2 0%, #ffccd5 40%, #ff6b6b 100%);
-  color:#2b0b0b;
-  box-shadow: 0 12px 40px rgba(255,80,80,0.08);
-}
-/* Many-faces theme */
-.card-img--multi {
-  background: linear-gradient(135deg,#fff7e6 0%, #ffd1e6 45%, #cdb4ff 100%);
-  color:#311130;
-}
-
-    /* ensure responsive scale */
-    @media(max-width:768px){
-      .card-img{height:200px;font-size:56px}
-      .card-img i{font-size:56px}
+    .glow {
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: linear-gradient(120deg, transparent 15%, rgba(56,189,248,0.4), rgba(167,139,250,0.4), transparent 85%);
+      opacity: 0.4;
+      pointer-events: none;
+      animation: glowMove 8s linear infinite;
+      mask: linear-gradient(#000, #000) padding-box, linear-gradient(#000, #000);
+      mask-composite: exclude;
+      -webkit-mask-composite: xor;
     }
 
-    /* Modal Reader */
-    .modal{
-      position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;
-      display:flex;align-items:center;justify-content:center;padding:20px;
-      opacity:0;visibility:hidden;transition:0.4s;
-    }
-    .modal.open{opacity:1;visibility:visible}
-    .modal-content{
-      background:var(--card);max-width:780px;width:100%;max-height:90vh;
-      overflow-y:auto;border-radius:var(--radius);box-shadow:0 30px 80px rgba(0,0,0,0.3);
-      animation:popup 0.5s ease;
-      position:relative;
-    }
-    .close-btn{
-      position:absolute;top:16px;right:20px;background:none;border:none;
-      font-size:32px;color:var(--muted);cursor:pointer;transition:0.3s;
-    }
-    .close-btn:hover{color:var(--accent);transform:scale(1.2)}
-    .poem-content{
-      padding:50px 40px;font-size:19px;
-    }
-    .poem-content h2{
-      font-family:'Playfair Display',serif;font-size:32px;text-align:center;
-      margin-bottom:32px;color:var(--accent);
-    }
-    .poem-content p{
-      margin:20px 0;text-align:center;font-style:italic;
-    }
-    .poem-content strong{color:var(--accent)}
-
-    /* Author / Contributor block */
-    .author-section{
-      margin-top:40px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(250,246,241,0.9));
-      padding:22px;border-radius:14px;display:flex;gap:20px;align-items:center;
-      box-shadow:0 12px 30px rgba(0,0,0,0.06);
-    }
-    .author-avatar{
-      width:96px;height:96px;border-radius:50%;
-      background:linear-gradient(135deg,var(--accent-light),var(--accent));
-      color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;
-      flex:0 0 96px;
-    }
-    .author-info h3{margin:0;font-size:20px;color:var(--accent);font-family:'Playfair Display',serif;}
-    .author-info p{margin:8px 0 0;color:var(--muted);line-height:1.5;}
-    .author-team{display:inline-block;margin-top:10px;padding:6px 10px;border-radius:999px;
-      background:var(--accent);color:#fff;font-weight:700;font-size:13px;}
-
-    /* Animations */
-    @keyframes fadeUp{
-      from{opacity:0;transform:translateY(30px)}
-      to{opacity:1;transform:translateY(0)}
-    }
-    @keyframes popup{
-      from{opacity:0;transform:scale(0.9)}
-      to{opacity:1;transform:scale(1)}
-    }
-    @keyframes float{
-      0%,100%{transform:translateY(0)}
-      50%{transform:translateY(-10px)}
+    @keyframes glowMove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
     }
 
-    /* Responsive */
-    @media(max-width:768px){
-      h1{font-size:38px}
-      .poem-grid{grid-template-columns:1fr}
-      nav a{margin-left:16px;font-size:14px}
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    p {
+      line-height: 1.7;
+      color: #cbd5e1;
+      margin: 14px 0;
+      font-size: 1.02rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+      justify-content: center;
+    }
+
+    .tag {
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(148,163,184,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .tag:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent1);
+      box-shadow: 0 12px 30px rgba(56,189,248,0.3);
+    }
+
+    .note {
+      text-align: center;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Buttons */
+    .btn-group {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      color: #020617;
+      box-shadow: 0 12px 32px rgba(56,189,248,0.35);
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 45px rgba(167,139,250,0.45);
+    }
+
+    .btn:active { transform: translateY(-1px); }
+
+    .btn.secondary {
+      background: rgba(60,70,100,0.6);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .btn.secondary:hover {
+      background: rgba(80,90,130,0.8);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    }
+
+    /* Countdown */
+    #countdown {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 1.1rem;
+      color: var(--accent3);
+      font-weight: 600;
+    }
+
+    /* Secret Overlay */
+    #secretOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(12px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    #secretOverlay.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .secretBox {
+      max-width: 460px;
+      width: 90%;
+      padding: 36px 32px;
+      border-radius: 24px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(100,120,160,0.3);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+      text-align: center;
+      animation: pop 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .secretBox h2 {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--accent4), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .secretBox p {
+      color: #e2e8f0;
+      line-height: 1.8;
+      margin: 12px 0;
+    }
+
+    .secretBox button {
+      margin-top: 24px;
+      padding: 12px 28px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent3), var(--accent2));
+      color: #020617;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* Particles container */
+    #particles { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+
+    @media (max-width: 640px) {
+      .card { padding: 32px 24px; margin: 20px; }
+      h1 { font-size: 1.65rem; }
+      .btn-group { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 300px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-animation"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
 
-  <header id="header">
-    <div class="nav-container">
-      <div class="logo">
-        <i class="fas fa-feather-alt"></i> Văn Học & Lá Thư
-      </div>
-     <div class="header-actions">
-       <form id="searchForm" class="search-form" onsubmit="return handleSearch(event)">
-         <input id="searchInput" type="search" placeholder="Tìm bài thơ, tiêu đề..." aria-label="Tìm bài thơ" />
-         <button type="submit" title="Tìm">Tìm</button>
-       </form>
-       <button id="themeToggle" class="theme-toggle" title="Chuyển chế độ">🌙</button>
-     </div>
-      <nav>
-        <a href="#">Trang chủ</a>
-        <a href="#tac-pham">Tác phẩm</a>
-        <a href="#moi">Mới nhất</a>
-        <a href="#ve">Về tác giả</a>
-      </nav>
+  <div id="particles"></div>
+
+  <div class="card">
+    <div class="glow"></div>
+
+    <h1>Giới thiệu nhẹ nhẹ</h1>
+
+    <p>Chào bạn chó, lâu rồi nhỉ? Tháng 12 trôi qua nhanh lắm...</p>
+
+    <p>Đến ngày 1/1/2026, bạn sẽ được chiêm ngưỡng "bộ mặt thật" như đã hứa.</p>
+
+    <div id="countdown">Đang đếm ngược...</div>
+
+    <div class="tags">
+      <span class="tag">Web tương tác</span>
+      <span class="tag">Troll có tâm</span>
+      <span class="tag">Giao diện xịn</span>
+      <span class="tag">Mobile mượt</span>
+      <span class="tag">Không ads bẩn</span>
+      <span class="tag">Nhột thì vẫn nhột</span>
     </div>
-  </header>
 
-  <main>
-    <div class="container">
-      <h1>Những dòng thơ chạm đến trái tim</h1>
-      <p class="subtitle">Nơi cảm xúc được gửi gắm bằng ngôn từ, nhẹ như gió thoảng nhưng sâu tựa biển khơi.</p>
+    <p>Mình làm trang này vừa để học front-end, vừa để tạo chút bất ngờ thú vị. Hy vọng bạn thấy vui!</p>
 
-     <!-- Warning note -->
-     <div id="reading-warning" class="warning-note" role="status" aria-live="polite">
-       <span class="wn-icon" aria-hidden="true">⚠️</span>
-       <div>Cảnh báo: Nếu đọc thơ mà thấy nhột, có thể… bạn hơi nhạy cảm 😏. Thơ chỉ để giải trí, không nhắm ai đâu nhé!</div>
-       <button class="wn-close" aria-label="Đóng cảnh báo" onclick="document.getElementById('reading-warning').style.display='none'">×</button>
-     </div>
-
-      <div class="poem-grid" id="tac-pham">
-        <!-- Poem 1 -->
-        <div class="poem-card" onclick="openPoem('poem1')">
-          <div class="card-img card-img--dog">
-            <span class="card-badge">vui</span>
-            <i class="fas fa-dog" aria-hidden="true"></i>
-          </div>
-          <div class="card-content">
-            <h3>Bạn chó — Thơ 4 đoạn</h3>
-            <p>Một bài thơ vui nhưng thấm, nói về tình bạn kỳ lạ giữa người và... một đứa bạn như con chó.</p>
-          </div>
-        </div>
-
-        <!-- Poem 2 -->
-        <div class="poem-card" onclick="openPoem('poem2')">
-          <div class="card-img card-img--comment">
-            <span class="card-badge">bản dài</span>
-            <i class="fas fa-comment-dots" aria-hidden="true"></i>
-          </div>
-          <div class="card-content">
-            <h3>Nết người ở lời nói — Bản dài</h3>
-            <p>Lời nói thể hiện nhân cách. Bản mở rộng 4 đoạn.</p>
-          </div>
-        </div>
-
-        <!-- Poem 3 - MỚI -->
-        <div class="poem-card" onclick="openPoem('poem3')">
-          <div class="card-img card-img--heart">
-            <span class="card-badge">mới</span>
-            <i class="fas fa-heart-broken" aria-hidden="true"></i>
-          </div>
-          <div class="card-content">
-            <h3>Lời nói dối ngọt ngào</h3>
-            <p>Lên án sự dối trá được bọc trong lớp vỏ dịu dàng — bài thơ mới nhất.</p>
-          </div>
-        </div>
-
-        <!-- Poem 4 - Lên án sự giả dối -->
-        <div class="poem-card" onclick="openPoem('poem4')">
-          <div class="card-img card-img--accuse">
-            <span class="card-badge">lên án</span>
-            <i class="fas fa-gavel" aria-hidden="true"></i>
-          </div>
-          <div class="card-content">
-            <h3>Lên án sự giả dối và lối sống lợi dụng tình cảm</h3>
-            <p>Thơ lên án sự giả dối, những kẻ lợi dụng lòng tin để thỏa mãn thói quen và sự trống trải.</p>
-          </div>
-        </div>
-
-        <!-- Poem 5 - Trend và cái tôi hời hợt (lên án) -->
-        <div class="poem-card" onclick="openPoem('poem5')">
-          <div class="card-img card-img--trend">
-            <span class="card-badge">lên án</span>
-            <i class="fas fa-hashtag" aria-hidden="true"></i>
-          </div>
-          <div class="card-content">
-            <h3>Trend và cái tôi hời hợt</h3>
-            <p>Lên án thói chạy theo trend, mất đi tiếng nói và chiều sâu cảm xúc.</p>
-          </div>
-        </div>
-
-        <!-- Poem 6 - Cày tương tác hay cày trái tim người ta? -->
-        <div class="poem-card" onclick="openPoem('poem6')">
-          <div class="card-img card-img--interact">
-            <span class="card-badge">lên án</span>
-            <i class="fas fa-user-friends" aria-hidden="true"></i>
-          </div>
-          <div class="card-content">
-            <h3>Cày tương tác hay cày trái tim người ta?</h3>
-            <p>Thơ lên án việc lợi dụng tương tác để đánh đổi cảm xúc thật của người khác.</p>
-          </div>
-        </div>
-
-        <!-- Poem 7 - Miệng nói yêu thương, lời gai độc -->
-        <div class="poem-card" onclick="openPoem('poem7')">
-          <div class="card-img card-img--bite">
-            <span class="card-badge">lên án</span>
-            <i class="fas fa-microphone-slash" aria-hidden="true"></i>
-          </div>
-          <div class="card-content">
-            <h3>Miệng nói yêu thương, lời gai độc</h3>
-            <p>Lên án thói chửi bới, lăng mạ mẹ người khác — lời nói thể hiện tâm.</p>
-          </div>
-        </div>
-
-        <!-- Poem 8 - NHIỀU MẶT NHƯ TỜ LỊCH -->
-        <div class="poem-card" onclick="openPoem('poem8')">
-          <div class="card-img card-img--multi">
-            <span class="card-badge">phê bình</span>
-            <i class="fas fa-mask-theater" aria-hidden="true"></i>
-          </div>
-          <div class="card-content">
-            <h3>Nhiều mặt như tờ lịch</h3>
-            <p>Vạch trần lối sống hai mặt, lời khuyên sống thật để khỏi khiến người khác mệt mỏi.</p>
-          </div>
-        </div>
-      </div>
-
-     <!-- About / Author section (linked from nav #ve) -->
-     <section id="ve" class="author-section" aria-labelledby="author-title">
-       <div class="author-avatar" aria-hidden="true">TL</div>
-       <div class="author-info">
-         <h3 id="author-title">Về tác giả & đội ngũ</h3>
-         <p>Trang này là kết quả hợp tác với một số nhà thơ cùng những cây bút độc lập — đồng hành để trao gửi cảm xúc chân thành qua từng câu chữ. Nội dung được biên tập và vận hành bởi <span class="author-team">TLGB Team</span>.</p>
-         <p>TLGB Team hỗ trợ tuyển chọn tác phẩm, liên hệ tác giả và phát triển cộng đồng người yêu thơ — nếu bạn muốn cộng tác, hãy liên hệ để cùng lan tỏa những dòng thơ có chiều sâu.</p>
-       </div>
-     </section>
-
+    <div class="btn-group">
+      <button class="btn" onclick="createParticles()">Bấm thử cho vui</button>
+      <button class="btn secondary" onclick="teaseSecret()">Nhột chưa? 😏</button>
     </div>
-  </main>
 
-  <!-- Modal -->
-  <div class="modal" id="modal" onclick="closeModal(event)">
-    <div class="modal-content">
-      <button class="close-btn" onclick="closeModal()">×</button>
-      <div class="poem-content" id="poem-display"></div>
+    <div class="note">Làm chơi nhưng vẫn làm đàng hoàng lắm nha.</div>
+  </div>
+
+  <!-- Secret Modal -->
+  <div id="secretOverlay">
+    <div class="secretBox">
+      <h2>🐶 Bạn chó xuất hiện rồi đây</h2>
+      <p>
+        Bí mật của bạn chó ấy...<br>
+        Eo ơi tởm lắm, cái phần lưng với cái phần j á nhiều lông lắm, tởm lợn vcl, con gái vậy á kkk<br>
+        Eo ơi cái nách nó có mùi thôi nách, eo<br>
+        Cái mồm tục với người lớn giống mấy con điên<br>
+        Còn nhiều lắm mà ko muốn nói...
+      </p>
+      <p style="opacity:.75; font-size:.95rem; margin-top:20px;">
+        Nhột thì vẫn là nhột.<br>
+        Còn hiểu tới đâu… tùy bạn chó thôi.
+      </p>
+      <button onclick="closeSecret()">Biết rồi, khổ lắm</button>
     </div>
   </div>
 
-  <!-- Hidden Poems -->
-  <template id="poem1">
-    <h2>Bạn chó — Thơ (4 đoạn)</h2>
-    <p>Có đứa bạn nhìn như <strong>con chó</strong>,<br>Nhưng hiền khô, chẳng biết cắn ai.<br>Đi học muộn vẫn cười như gió,<br>Đời nhẹ tênh chẳng để lòng phai.</p>
-    <p>Nhắc làm bài — nó quên sạch bách,<br>Bảo tắt game — nó lắc cái đầu.<br>Rồi tới lúc điểm rơi thảm bại,<br>Lại thề thốt chuyện412 chăm học sau.</p>
-    <p>Nói chuyện ngu nhưng vui như phá,<br>Kể chuyện đời ngáo ngáo ngu ngu.<br>Ở bên nó chẳng bao giờ chán,<br>Như nuôi một con thú cưng… biết tu.</p>
-    <p>Dù đôi lúc làm mình tức muốn chết,<br>Nhưng vắng nó lại thấy buồn hiu.<br>Bởi tình bạn đâu cần gì phức tạp,<br>Một đứa “như chó” nhưng chơi là hiểu.</p>
-  </template>
-
-  <template id="poem2">
-    <h2>Nết người ở lời nói — Bản 4 đoạn</h2>
-    <p>Có kẻ miệng toàn câu chửi,<br>Chưa lớn nhưng tỏ vẻ oai.<br>Thấy người lớn không biết kính,<br>Lời nói ra nghe muốn sai.</p>
-    <p>Tục tằn đâu làm ai mạnh,<br>Hỗn hào chỉ khiến mình hèn.<br>Đường đời không ai trọng kẻ,<br>Bất kính chẳng biết dưới – trên.</p>
-    <p>Nết người nằm trong lời nói,<br>Biết tôn trọng mới gọi khôn.<br>Sống đẹp từ câu chào hỏi,<br>Chứ chẳng phải miệng sắc hơn.</p>
-    <p>Lời nói hiền làm lòng sáng,<br>Khiêm nhường khiến bước đời êm.<br>Nhớ rằng làm người trước đã,<br>Rồi mới tính chuyện hơn – thua.</p>
-  </template>
-
-  <template id="poem3">
-    <h2>Lời nói dối ngọt ngào</h2>
-    <p>Có những lời nói như lưỡi dao mỏng,<br>Cắt vào tim, để lại vết thương không tên.<br>Người nói quên, nhưng người nghe thì nhớ,<br>Nhớ cả đời, chỉ bởi một chữ… không thật.</p>
-    <p>Có những dối trá được bọc bằng dịu dàng,<br>Nghe ngọt lắm nhưng lòng thì buốt lắm.<br>Cứ tưởng thương, hóa ra là lợi dụng,<br>Chạm nhẹ thôi, cũng đủ để rơi.</p>
-    <p>Mặt nạ ai rồi cũng đến lúc rơi xuống,<br>Chỉ có trái tim là không biết nói dối.<br>Đi qua lừa lọc mới hiểu điều chân thật:<br>Người thật lòng — chẳng bao giờ khiến ta tổn thương.</p>
-    <p>Thôi thì học cách đứng lên sau vấp ngã,<br>Dọn lại tim, phủi sạch bụi muộn phiền.<br>Sự thật, dù đau, vẫn là điều đẹp nhất,<br>Vì giúp ta mạnh mẽ… hơn những lần trước.</p>
-  </template>
-
-  <template id="poem4">
-    <h2>Lên án sự giả dối và lối sống lợi dụng tình cảm</h2>
-    <p>Trong những góc tối đời người,<br>
-    Có kẻ giấu trái tim mình sau nghìn lớp mặt.<br>
-    Cười thì ngọt, nói thì hay,<br>
-    Nhưng lòng lại gieo thêm bao vết cắt.</p>
-
-    <p>Đi qua ai cũng vội nhặt<br>
-    Một chút thương, một chút tin, rồi bỏ mặc sau lưng.<br>
-    Tình cảm biến thành trò chơi,<br>
-    Hứa hẹn biến thành gió — thoáng rồi không giữ nổi một lần.</p>
-
-    <p>Những cuộc tình đếm bằng thói quen,<br>
-    Không bằng trân trọng.<br>
-    Những tin nhắn nửa đêm<br>
-    Chỉ để lấp khoảng trống chứ nào phải thật lòng.</p>
-
-    <p>Ta chẳng trách vẻ ngoài long lanh,<br>
-    Chỉ trách trái tim hoài tìm điều mới mẻ.<br>
-    Phản bội không chừa ai,<br>
-    Nhưng kẻ gieo đau —<br>
-    sớm muộn gì cũng nhận về mất mát của chính mình.</p>
-
-    <p>Tình yêu không phải tấm vé đổi lấy sự chú ý,<br>
-    Càng không phải chiếc chìa để mở từng cánh cửa lòng mọi người.<br>
-    Ai sống thật rồi sẽ gặp thật,<br>
-    Ai dối trá rồi sẽ mất đi người duy nhất từng muốn giữ mình suốt đời.</p>
-  </template>
-
-  <template id="poem5">
-    <h2>Trend và cái tôi hời hợt</h2>
-    <p>Trên TikTok, ai cũng muốn tỏa sáng,<br>
-    Nhảy te te, múa quay, cười nói vô vàn.<br>
-    “Trend mới, trend hot, phải theo cho kịp”,<br>
-    Nhưng tim thì trống rỗng, lời nói chẳng thật.</p>
-    <p>Một bước nhảy, một bộ filter lấp lánh,<br>
-    Chỉ để thu lượt xem, để nhận vài trái tim ảo.<br>
-    Người ta nhìn, gật gù, khen nụ cười xinh,<br>
-    Nhưng bên trong, chẳng ai biết bạn là ai.</p>
-    <p>Trend trôi nhanh, rồi lại một trend khác,<br>
-    Ai còn nhớ những clip hôm qua? Chẳng ai.<br>
-    Mỗi lượt tim chỉ là số, chẳng phải cảm xúc,<br>
-    Và cái tôi thật bị bỏ quên giữa dòng meme.</p>
-    <p>Nếu muốn nổi, đừng chỉ nhảy theo số đông,<br>
-    Hãy nhảy theo chính mình, theo tim thật.<br>
-    Đừng để trend đánh cắp tuổi trẻ và tiếng nói,<br>
-    Kẻ chạy theo trend rồi sẽ thấy trống trải nơi tâm hồn.</p>
-  </template>
-
-  <template id="poem6">
-    <h2>💔 Cày tương tác hay cày trái tim người ta? 💔</h2>
-    <p>Có cô gái bảo rằng: “Em chỉ cày tương tác thôi mà!”<br>
-    Mà acc chính, acc phụ lập ra… chẳng nhớ nổi bao nhiêu là.<br>
-    Sáng nhắn trai A: “Anh ơi em buồn…”<br>
-    Tối thả tim trai B: “Anh ngủ chưa?” — nhìn thôi cũng muốn xuống luôn tinh thần.</p>
-
-    <p>Story đăng thì nửa kín nửa hở,<br>
-    Ảnh mập mờ, caption thơ — mà nội dung toàn… gợi mở.<br>
-    Ai vô lỡ hỏi đôi câu lại bảo: “Ờ đang thử hiệu ứng mới thôi!”<br>
-    Nhưng tương tác một hồi, thành ra bao người lại rối.</p>
-
-    <p>Cày tương tác mà sao gieo thêm trăm lời hứa?<br>
-    Cày tương tác mà nhắn ai cũng ngọt như đường mía?<br>
-    Nếu vô tình, sao lại chăm “tưới nước” từng người?<br>
-    Nếu không cố, sao ai cũng tưởng mình đang được chọn giữa muôn lời?</p>
-
-    <p>Thôi thì xin nhẹ đôi câu cho tỉnh táo:<br>
-    Nét đẹp không nằm ở cái cách khoe… mà ở cái cách giữ mình cho không xao đảo.<br>
-    Đàn ông đâu có ngốc, họ chỉ tử tế chứ không mù.<br>
-    Còn ai sống hai ba mặt, thì một ngày nào đó, chính mình… tự lộ ra từ từ.</p>
-  </template>
-
-  <template id="poem7">
-    <h2>🔥 Miệng nói yêu thương, nhưng lời thốt ra toàn gai độc 🔥</h2>
-    <p>Có kẻ miệng lúc nào cũng “mẹ này mẹ nọ”,<br>
-    Câu nói đi chưa hết nửa dòng đã cay xè như ớt đỏ.<br>
-    Tưởng ngầu, tưởng chất, tưởng mình mạnh mẽ nhất đời,<br>
-    Nhưng cái mạnh duy nhất… là mạnh miệng làm đau lòng người.</p>
-
-    <p>Chửi xéo ai thì cũng lôi mẹ người ta vào câu nói,<br>
-    Như thể trên đời chỉ mình họ có quyền làm tổn thương, có quyền chạm tới.<br>
-    Nghĩ mình hài hước? Không. Chỉ là thô tục và kém duyên.<br>
-    Vết thương để lại từ miệng họ — chẳng nước nào rửa sạch, chẳng lời nào nguôi yên.</p>
-
-    <p>Nói tục để thể hiện à? Nhưng sự thật chỉ phơi ra cái thiếu tôn trọng, thiếu văn hóa.<br>
-    Còn nói xấu mẹ người ta — là cái hèn lớn nhất mà một con người có thể bước qua.<br>
-    Mẹ là người sinh ra mỗi cuộc đời, đâu đáng bị kéo vào cuộc cãi vã rẻ tiền,<br>
-    Ai động tới mẹ người khác… là đang tự bộc lộ cái tâm nhỏ như hạt cát, chẳng còn gì để tin.</p>
-
-    <p>Thử một lần chửi… mà không lôi mẹ ai vào xem có còn “duyên dáng” nữa không?<br>
-    Hay rồi im lặng, vì chẳng còn câu nào để giấu cái trống rỗng trong lòng.<br>
-    Lời nói là gương soi người — soi đâu thấy nết, chỉ thấy tánh thô cứng.<br>
-    Còn cái miệng quen xúc phạm mẹ người khác…<br>
-    Thì tự nó đã là bằng chứng.</p>
-  </template>
-
-  <template id="poem8">
-    <h2>NHIỀU MẶT NHƯ TỜ LỊCH</h2>
-    <p>Có người phụ nữ lạ lùng thay,<br>
-    Sáng dạ vâng thưa gửi rất là hay,<br>
-    Trưa quay ngoắt chửi thề như gió bão,<br>
-    Chiều lại hóa “chó dại” chạy tung bay.</p>
-
-    <p>Tối đăng status than đời cho… người lớn,<br>
-    Khuya bật mode “điên nhẹ” để câu view.<br>
-    Hỏi sao vậy? — “Em đa nhân cách xíu”,<br>
-    Nhột thì nổi đóa, hiền thì… tùy buổi chiều.</p>
-
-    <p>Miệng nói đạo lý, tay lại gieo thị phi,<br>
-    Thấy ai góp ý là lập tức sân si.<br>
-    Mặt hôm nay ngọt, mai thì cay như ớt,<br>
-    Sống hai ba vai diễn cứ đổi lia lìa y như phim truyền hình dài tập miễn phí.</p>
-
-    <p>Người đời đâu ác, chỉ mong chị sống thật,<br>
-    Một màu cũng được — khỏi cần xoay 7749 mặt.<br>
-    Cho thiên hạ đỡ mệt, web tôi đăng cũng đỡ run,<br>
-    Sợ ai nhột quá lại bảo “ám chỉ tui” rồi quậy tung.</p>
-  </template>
-
   <script>
-    // Header scroll effect
-    window.addEventListener('scroll', () => {
-      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
-    });
+    const TARGET_TIME = new Date('2026-01-01T00:00:00+07:00').getTime();
+    const overlay = document.getElementById('secretOverlay');
+    const countdownEl = document.getElementById('countdown');
 
-    function openPoem(id) {
-      const template = document.getElementById(id).innerHTML;
-      document.getElementById('poem-display').innerHTML = template;
-      document.getElementById('modal').classList.add('open');
-      document.body.style.overflow = 'hidden';
+    // Countdown
+    function updateCountdown() {
+      const now = Date.now();
+      const diff = TARGET_TIME - now;
+
+      if (diff <= 0) {
+        countdownEl.textContent = "Đã đến lúc rồi đấy...";
+        overlay.classList.add('show');
+        clearInterval(countdownTimer);
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      countdownEl.textContent = `${days} ngày ${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
     }
 
-    function closeModal(e) {
-      if (e && e.target.id !== 'modal' && e.target.className !== 'close-btn') return;
-      document.getElementById('modal').classList.remove('open');
-      document.body.style.overflow = 'auto';
+    const countdownTimer = setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call
+
+    // Close modal
+    function closeSecret() {
+      overlay.classList.remove('show');
     }
 
-    // Close with ESC
-        document.addEventListener('keydown', e => {
-          if (e.key === 'Escape') closeModal();
+    // Tease button
+    function teaseSecret() {
+      countdownEl.textContent = "Còn lâu mới tới đâu mà nhột 😏";
+      setTimeout(() => updateCountdown(), 3000);
+    }
+
+    // Particle effect khi bấm nút
+    function createParticles() {
+      const particles = document.getElementById('particles');
+      const colors = ['#38bdf8', '#a78bfa', '#34d399', '#fbbf24'];
+
+      for (let i = 0; i < 30; i++) {
+        const p = document.createElement('div');
+        p.style.position = 'absolute';
+        p.style.width = '8px';
+        p.style.height = '8px';
+        p.style.borderRadius = '50%';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.pointerEvents = 'none';
+        p.style.left = '50%';
+        p.style.top = '50%';
+        p.style.transform = 'translate(-50%, -50%)';
+        p.style.opacity = '0.8';
+
+        particles.appendChild(p);
+
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 4 + Math.random() * 6;
+        const anim = p.animate([
+          { transform: 'translate(-50%, -50%) scale(1)', opacity: 0.8 },
+          { transform: `translate(-50%, -50%) translate(${Math.cos(angle)*150}px, ${Math.sin(angle)*150}px) scale(0)`, opacity: 0 }
+        ], {
+          duration: 800 + Math.random() * 400,
+          easing: 'cubic-bezier(0,0,0.2,1)'
         });
 
-    // --- Search handling (client-side) ---
-    function handleSearch(e){
-      if(e) e.preventDefault();
-      const q = (document.getElementById('searchInput').value || '').trim().toLowerCase();
-      const cards = Array.from(document.querySelectorAll('.poem-card'));
-      document.querySelectorAll('.poem-card.match').forEach(el=>el.classList.remove('match'));
-      if(!q){ if(cards.length) cards[0].scrollIntoView({behavior:'smooth',block:'center'}); return false; }
-      let first = null;
-      cards.forEach(card=>{
-        const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
-        const desc = (card.querySelector('.card-content p')?.textContent || '').toLowerCase();
-        if(title.includes(q) || desc.includes(q)){
-          card.classList.add('match');
-          if(!first) first = card;
-        }
-      });
-      if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
-      else alert('Không tìm thấy kết quả.');
-      return false;
+        anim.onfinish = () => p.remove();
+      }
     }
-
-    // allow Enter key in search input to trigger search
-    document.getElementById('searchInput')?.addEventListener('keydown', function(e){
-      if(e.key === 'Escape'){ this.value=''; handleSearch(); }
-    });
-
-    // --- Theme toggle ---
-    const themeToggle = document.getElementById('themeToggle');
-    function applyTheme(theme){
-      if(theme === 'dark') document.documentElement.setAttribute('data-theme','dark');
-      else document.documentElement.removeAttribute('data-theme');
-      themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-      localStorage.setItem('site-theme', theme);
-    }
-    // on load restore
-    (function(){
-      const saved = localStorage.getItem('site-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      applyTheme(saved);
-    })();
-    themeToggle.addEventListener('click', function(){ 
-      const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-      applyTheme(current === 'dark' ? 'light' : 'dark');
-    });
   </script>
-  <script src="https://messenger.svc.chative.io/static/v1.0/channels/s51de13cb-e497-4d27-8048-72589981d618/messenger.js?mode=livechat" defer="defer"></script>
 </body>
 </html>
